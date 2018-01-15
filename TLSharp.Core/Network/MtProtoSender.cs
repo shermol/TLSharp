@@ -18,8 +18,6 @@ namespace TLSharp.Core.Network
     {
         //private ulong sessionId = GenerateRandomUlong();
 
-        private readonly uint UpdatesTooLongID = (uint) new TeleSharp.TL.TLUpdatesTooLong ().Constructor;
-
         private TcpTransport _transport;
         private Session _session;
 
@@ -192,6 +190,7 @@ namespace TLSharp.Core.Network
 
             uint code = messageReader.ReadUInt32();
             messageReader.BaseStream.Position -= 4;
+            Console.WriteLine ("Msg code: {0:x8}", code);
             switch (code)
             {
                 case 0x73f1f8dc: // container
@@ -228,15 +227,14 @@ namespace TLSharp.Core.Network
                                  //logger.debug("MSG gzip_packed");
                     return HandleGzipPacked(messageId, sequence, messageReader, request);
                 case 0xe317af7e:
-                case 0x914fbf11:
-                case 0x16812688:
+                case 0xd3f45784:
+                case 0x2b2fbd4e:
                 case 0x78d4dec1:
                 case 0x725b04c3:
                 case 0x74ae4240:
-                case 0x11f1331c:
                     return HandleUpdate(code, sequence, messageReader, request);
                 default:
-                    Console.WriteLine ("Msg code: {0:x8}", code);
+                    //logger.debug("unknown message: {0}", code);
                     return false;
             }
         }
@@ -246,14 +244,11 @@ namespace TLSharp.Core.Network
 			try
 			{
                 var update = ParseUpdate (code, messageReader);
-                if (update != null && UpdatesEvent != null) 
-                {
-                    UpdatesEvent (update);
-                }
+                if (update != null && UpdatesEvent != null)
+				    UpdatesEvent(update);
 			}
-			catch (Exception ex)
+			catch 
 			{
-                Console.WriteLine (ex);
 			}
             return false;
         }
@@ -264,9 +259,9 @@ namespace TLSharp.Core.Network
             {
             case 0xe317af7e:
                 return DecodeUpdate<TeleSharp.TL.TLUpdatesTooLong>(messageReader);
-            case 0x914fbf11:
+            case 0xd3f45784:
                 return DecodeUpdate<TeleSharp.TL.TLUpdateShortMessage> (messageReader);
-            case 0x16812688:
+            case 0x2b2fbd4e:
                 return DecodeUpdate<TeleSharp.TL.TLUpdateShortChatMessage> (messageReader);
             case 0x78d4dec1:
                 return DecodeUpdate<TeleSharp.TL.TLUpdateShort> (messageReader);
@@ -274,17 +269,15 @@ namespace TLSharp.Core.Network
                 return DecodeUpdate<TeleSharp.TL.TLUpdatesCombined> (messageReader);
             case 0x74ae4240:
                 return DecodeUpdate<TeleSharp.TL.TLUpdates> (messageReader);
-            case 0x11f1331c:
-                return DecodeUpdate<TeleSharp.TL.TLUpdateShortSentMessage> (messageReader);
             default:
                 return null;
             }
         }
 
-        private TeleSharp.TL.TLAbsUpdates DecodeUpdate<T>(BinaryReader messageReader) where T: TeleSharp.TL.TLAbsUpdates
+        private TeleSharp.TL.TLAbsUpdates DecodeUpdate<T>(BinaryReader messageReader) where T: TeleSharp.TL.TLAbsUpdates, new()
         {
-            var ms = messageReader.BaseStream as MemoryStream;
-            var update = (T) TeleSharp.TL.ObjectUtils.DeserializeObject (messageReader);
+            var update = new T ();
+            update.DeserializeBody (messageReader);
             return update;
         }
 
