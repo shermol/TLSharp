@@ -54,7 +54,7 @@ namespace TLSharp.Core
 
     public class Session
     {
-	    private const string defaultConnectionAddress = "149.154.175.100";//"149.154.167.50";
+	    private const string defaultConnectionAddress = "149.154.167.50";//"149.154.167.50";
 
 		private const int defaultConnectionPort = 443;
 
