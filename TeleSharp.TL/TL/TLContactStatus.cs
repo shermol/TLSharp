@@ -18,8 +18,8 @@ namespace TeleSharp.TL
             }
         }
 
-        public int UserId { get; set; }
-        public TLAbsUserStatus Status { get; set; }
+        public int user_id { get; set; }
+        public TLAbsUserStatus status { get; set; }
 
 
         public void ComputeFlags()
@@ -29,16 +29,16 @@ namespace TeleSharp.TL
 
         public override void DeserializeBody(BinaryReader br)
         {
-            UserId = br.ReadInt32();
-            Status = (TLAbsUserStatus)ObjectUtils.DeserializeObject(br);
+            user_id = br.ReadInt32();
+            status = (TLAbsUserStatus)ObjectUtils.DeserializeObject(br);
 
         }
 
         public override void SerializeBody(BinaryWriter bw)
         {
             bw.Write(Constructor);
-            bw.Write(UserId);
-            ObjectUtils.SerializeObject(Status, bw);
+            bw.Write(user_id);
+            ObjectUtils.SerializeObject(status, bw);
 
         }
     }

@@ -18,9 +18,9 @@ namespace TeleSharp.TL.Auth
             }
         }
 
-        public string PhoneNumber { get; set; }
-        public string PhoneCodeHash { get; set; }
-        public string PhoneCode { get; set; }
+        public string phone_number { get; set; }
+        public string phone_code_hash { get; set; }
+        public string phone_code { get; set; }
         public Auth.TLAuthorization Response { get; set; }
 
 
@@ -31,21 +31,21 @@ namespace TeleSharp.TL.Auth
 
         public override void DeserializeBody(BinaryReader br)
         {
-            PhoneNumber = StringUtil.Deserialize(br);
-            PhoneCodeHash = StringUtil.Deserialize(br);
-            PhoneCode = StringUtil.Deserialize(br);
+            phone_number = StringUtil.Deserialize(br);
+            phone_code_hash = StringUtil.Deserialize(br);
+            phone_code = StringUtil.Deserialize(br);
 
         }
 
         public override void SerializeBody(BinaryWriter bw)
         {
             bw.Write(Constructor);
-            StringUtil.Serialize(PhoneNumber, bw);
-            StringUtil.Serialize(PhoneCodeHash, bw);
-            StringUtil.Serialize(PhoneCode, bw);
+            StringUtil.Serialize(phone_number, bw);
+            StringUtil.Serialize(phone_code_hash, bw);
+            StringUtil.Serialize(phone_code, bw);
 
         }
-        public override void DeserializeResponse(BinaryReader br)
+        public override void deserializeResponse(BinaryReader br)
         {
             Response = (Auth.TLAuthorization)ObjectUtils.DeserializeObject(br);
 

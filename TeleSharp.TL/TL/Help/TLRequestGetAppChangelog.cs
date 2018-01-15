@@ -18,7 +18,7 @@ namespace TeleSharp.TL.Help
             }
         }
 
-        public string PrevAppVersion { get; set; }
+        public string prev_app_version { get; set; }
         public TLAbsUpdates Response { get; set; }
 
 
@@ -29,17 +29,17 @@ namespace TeleSharp.TL.Help
 
         public override void DeserializeBody(BinaryReader br)
         {
-            PrevAppVersion = StringUtil.Deserialize(br);
+            prev_app_version = StringUtil.Deserialize(br);
 
         }
 
         public override void SerializeBody(BinaryWriter bw)
         {
             bw.Write(Constructor);
-            StringUtil.Serialize(PrevAppVersion, bw);
+            StringUtil.Serialize(prev_app_version, bw);
 
         }
-        public override void DeserializeResponse(BinaryReader br)
+        public override void deserializeResponse(BinaryReader br)
         {
             Response = (TLAbsUpdates)ObjectUtils.DeserializeObject(br);
 

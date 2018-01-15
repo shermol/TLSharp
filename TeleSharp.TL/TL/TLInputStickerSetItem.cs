@@ -18,28 +18,28 @@ namespace TeleSharp.TL
             }
         }
 
-        public int Flags { get; set; }
-        public TLAbsInputDocument Document { get; set; }
-        public string Emoji { get; set; }
-        public TLMaskCoords MaskCoords { get; set; }
+        public int flags { get; set; }
+        public TLAbsInputDocument document { get; set; }
+        public string emoji { get; set; }
+        public TLMaskCoords mask_coords { get; set; }
 
 
         public void ComputeFlags()
         {
-            Flags = 0;
-            Flags = MaskCoords != null ? (Flags | 1) : (Flags & ~1);
+            flags = 0;
+            flags = mask_coords != null ? (flags | 1) : (flags & ~1);
 
         }
 
         public override void DeserializeBody(BinaryReader br)
         {
-            Flags = br.ReadInt32();
-            Document = (TLAbsInputDocument)ObjectUtils.DeserializeObject(br);
-            Emoji = StringUtil.Deserialize(br);
-            if ((Flags & 1) != 0)
-                MaskCoords = (TLMaskCoords)ObjectUtils.DeserializeObject(br);
+            flags = br.ReadInt32();
+            document = (TLAbsInputDocument)ObjectUtils.DeserializeObject(br);
+            emoji = StringUtil.Deserialize(br);
+            if ((flags & 1) != 0)
+                mask_coords = (TLMaskCoords)ObjectUtils.DeserializeObject(br);
             else
-                MaskCoords = null;
+                mask_coords = null;
 
 
         }
@@ -48,11 +48,11 @@ namespace TeleSharp.TL
         {
             bw.Write(Constructor);
             ComputeFlags();
-            bw.Write(Flags);
-            ObjectUtils.SerializeObject(Document, bw);
-            StringUtil.Serialize(Emoji, bw);
-            if ((Flags & 1) != 0)
-                ObjectUtils.SerializeObject(MaskCoords, bw);
+            bw.Write(flags);
+            ObjectUtils.SerializeObject(document, bw);
+            StringUtil.Serialize(emoji, bw);
+            if ((flags & 1) != 0)
+                ObjectUtils.SerializeObject(mask_coords, bw);
 
         }
     }

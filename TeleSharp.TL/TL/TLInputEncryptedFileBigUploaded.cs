@@ -18,9 +18,9 @@ namespace TeleSharp.TL
             }
         }
 
-        public long Id { get; set; }
-        public int Parts { get; set; }
-        public int KeyFingerprint { get; set; }
+        public long id { get; set; }
+        public int parts { get; set; }
+        public int key_fingerprint { get; set; }
 
 
         public void ComputeFlags()
@@ -30,18 +30,18 @@ namespace TeleSharp.TL
 
         public override void DeserializeBody(BinaryReader br)
         {
-            Id = br.ReadInt64();
-            Parts = br.ReadInt32();
-            KeyFingerprint = br.ReadInt32();
+            id = br.ReadInt64();
+            parts = br.ReadInt32();
+            key_fingerprint = br.ReadInt32();
 
         }
 
         public override void SerializeBody(BinaryWriter bw)
         {
             bw.Write(Constructor);
-            bw.Write(Id);
-            bw.Write(Parts);
-            bw.Write(KeyFingerprint);
+            bw.Write(id);
+            bw.Write(parts);
+            bw.Write(key_fingerprint);
 
         }
     }

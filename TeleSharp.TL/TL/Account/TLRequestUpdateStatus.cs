@@ -18,7 +18,7 @@ namespace TeleSharp.TL.Account
             }
         }
 
-        public bool Offline { get; set; }
+        public bool offline { get; set; }
         public bool Response { get; set; }
 
 
@@ -29,17 +29,17 @@ namespace TeleSharp.TL.Account
 
         public override void DeserializeBody(BinaryReader br)
         {
-            Offline = BoolUtil.Deserialize(br);
+            offline = BoolUtil.Deserialize(br);
 
         }
 
         public override void SerializeBody(BinaryWriter bw)
         {
             bw.Write(Constructor);
-            BoolUtil.Serialize(Offline, bw);
+            BoolUtil.Serialize(offline, bw);
 
         }
-        public override void DeserializeResponse(BinaryReader br)
+        public override void deserializeResponse(BinaryReader br)
         {
             Response = BoolUtil.Deserialize(br);
 

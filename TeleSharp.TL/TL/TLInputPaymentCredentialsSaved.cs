@@ -18,8 +18,8 @@ namespace TeleSharp.TL
             }
         }
 
-        public string Id { get; set; }
-        public byte[] TmpPassword { get; set; }
+        public string id { get; set; }
+        public byte[] tmp_password { get; set; }
 
 
         public void ComputeFlags()
@@ -29,16 +29,16 @@ namespace TeleSharp.TL
 
         public override void DeserializeBody(BinaryReader br)
         {
-            Id = StringUtil.Deserialize(br);
-            TmpPassword = BytesUtil.Deserialize(br);
+            id = StringUtil.Deserialize(br);
+            tmp_password = BytesUtil.Deserialize(br);
 
         }
 
         public override void SerializeBody(BinaryWriter bw)
         {
             bw.Write(Constructor);
-            StringUtil.Serialize(Id, bw);
-            BytesUtil.Serialize(TmpPassword, bw);
+            StringUtil.Serialize(id, bw);
+            BytesUtil.Serialize(tmp_password, bw);
 
         }
     }

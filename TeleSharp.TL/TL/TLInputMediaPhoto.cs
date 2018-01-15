@@ -18,8 +18,8 @@ namespace TeleSharp.TL
             }
         }
 
-        public TLAbsInputPhoto Id { get; set; }
-        public string Caption { get; set; }
+        public TLAbsInputPhoto id { get; set; }
+        public string caption { get; set; }
 
 
         public void ComputeFlags()
@@ -29,16 +29,16 @@ namespace TeleSharp.TL
 
         public override void DeserializeBody(BinaryReader br)
         {
-            Id = (TLAbsInputPhoto)ObjectUtils.DeserializeObject(br);
-            Caption = StringUtil.Deserialize(br);
+            id = (TLAbsInputPhoto)ObjectUtils.DeserializeObject(br);
+            caption = StringUtil.Deserialize(br);
 
         }
 
         public override void SerializeBody(BinaryWriter bw)
         {
             bw.Write(Constructor);
-            ObjectUtils.SerializeObject(Id, bw);
-            StringUtil.Serialize(Caption, bw);
+            ObjectUtils.SerializeObject(id, bw);
+            StringUtil.Serialize(caption, bw);
 
         }
     }

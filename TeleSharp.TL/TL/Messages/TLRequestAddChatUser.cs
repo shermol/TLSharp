@@ -18,9 +18,9 @@ namespace TeleSharp.TL.Messages
             }
         }
 
-        public int ChatId { get; set; }
-        public TLAbsInputUser UserId { get; set; }
-        public int FwdLimit { get; set; }
+        public int chat_id { get; set; }
+        public TLAbsInputUser user_id { get; set; }
+        public int fwd_limit { get; set; }
         public TLAbsUpdates Response { get; set; }
 
 
@@ -31,21 +31,21 @@ namespace TeleSharp.TL.Messages
 
         public override void DeserializeBody(BinaryReader br)
         {
-            ChatId = br.ReadInt32();
-            UserId = (TLAbsInputUser)ObjectUtils.DeserializeObject(br);
-            FwdLimit = br.ReadInt32();
+            chat_id = br.ReadInt32();
+            user_id = (TLAbsInputUser)ObjectUtils.DeserializeObject(br);
+            fwd_limit = br.ReadInt32();
 
         }
 
         public override void SerializeBody(BinaryWriter bw)
         {
             bw.Write(Constructor);
-            bw.Write(ChatId);
-            ObjectUtils.SerializeObject(UserId, bw);
-            bw.Write(FwdLimit);
+            bw.Write(chat_id);
+            ObjectUtils.SerializeObject(user_id, bw);
+            bw.Write(fwd_limit);
 
         }
-        public override void DeserializeResponse(BinaryReader br)
+        public override void deserializeResponse(BinaryReader br)
         {
             Response = (TLAbsUpdates)ObjectUtils.DeserializeObject(br);
 

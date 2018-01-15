@@ -18,8 +18,8 @@ namespace TeleSharp.TL
             }
         }
 
-        public int UserId { get; set; }
-        public string Phone { get; set; }
+        public int user_id { get; set; }
+        public string phone { get; set; }
 
 
         public void ComputeFlags()
@@ -29,16 +29,16 @@ namespace TeleSharp.TL
 
         public override void DeserializeBody(BinaryReader br)
         {
-            UserId = br.ReadInt32();
-            Phone = StringUtil.Deserialize(br);
+            user_id = br.ReadInt32();
+            phone = StringUtil.Deserialize(br);
 
         }
 
         public override void SerializeBody(BinaryWriter bw)
         {
             bw.Write(Constructor);
-            bw.Write(UserId);
-            StringUtil.Serialize(Phone, bw);
+            bw.Write(user_id);
+            StringUtil.Serialize(phone, bw);
 
         }
     }

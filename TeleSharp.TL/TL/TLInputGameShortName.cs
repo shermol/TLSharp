@@ -18,8 +18,8 @@ namespace TeleSharp.TL
             }
         }
 
-        public TLAbsInputUser BotId { get; set; }
-        public string ShortName { get; set; }
+        public TLAbsInputUser bot_id { get; set; }
+        public string short_name { get; set; }
 
 
         public void ComputeFlags()
@@ -29,16 +29,16 @@ namespace TeleSharp.TL
 
         public override void DeserializeBody(BinaryReader br)
         {
-            BotId = (TLAbsInputUser)ObjectUtils.DeserializeObject(br);
-            ShortName = StringUtil.Deserialize(br);
+            bot_id = (TLAbsInputUser)ObjectUtils.DeserializeObject(br);
+            short_name = StringUtil.Deserialize(br);
 
         }
 
         public override void SerializeBody(BinaryWriter bw)
         {
             bw.Write(Constructor);
-            ObjectUtils.SerializeObject(BotId, bw);
-            StringUtil.Serialize(ShortName, bw);
+            ObjectUtils.SerializeObject(bot_id, bw);
+            StringUtil.Serialize(short_name, bw);
 
         }
     }

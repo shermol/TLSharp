@@ -18,9 +18,9 @@ namespace TeleSharp.TL
             }
         }
 
-        public int ChannelId { get; set; }
-        public int Id { get; set; }
-        public int Views { get; set; }
+        public int channel_id { get; set; }
+        public int id { get; set; }
+        public int views { get; set; }
 
 
         public void ComputeFlags()
@@ -30,18 +30,18 @@ namespace TeleSharp.TL
 
         public override void DeserializeBody(BinaryReader br)
         {
-            ChannelId = br.ReadInt32();
-            Id = br.ReadInt32();
-            Views = br.ReadInt32();
+            channel_id = br.ReadInt32();
+            id = br.ReadInt32();
+            views = br.ReadInt32();
 
         }
 
         public override void SerializeBody(BinaryWriter bw)
         {
             bw.Write(Constructor);
-            bw.Write(ChannelId);
-            bw.Write(Id);
-            bw.Write(Views);
+            bw.Write(channel_id);
+            bw.Write(id);
+            bw.Write(views);
 
         }
     }

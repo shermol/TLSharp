@@ -18,8 +18,8 @@ namespace TeleSharp.TL.Channels
             }
         }
 
-        public TLAbsInputChannel Channel { get; set; }
-        public TLAbsInputChatPhoto Photo { get; set; }
+        public TLAbsInputChannel channel { get; set; }
+        public TLAbsInputChatPhoto photo { get; set; }
         public TLAbsUpdates Response { get; set; }
 
 
@@ -30,19 +30,19 @@ namespace TeleSharp.TL.Channels
 
         public override void DeserializeBody(BinaryReader br)
         {
-            Channel = (TLAbsInputChannel)ObjectUtils.DeserializeObject(br);
-            Photo = (TLAbsInputChatPhoto)ObjectUtils.DeserializeObject(br);
+            channel = (TLAbsInputChannel)ObjectUtils.DeserializeObject(br);
+            photo = (TLAbsInputChatPhoto)ObjectUtils.DeserializeObject(br);
 
         }
 
         public override void SerializeBody(BinaryWriter bw)
         {
             bw.Write(Constructor);
-            ObjectUtils.SerializeObject(Channel, bw);
-            ObjectUtils.SerializeObject(Photo, bw);
+            ObjectUtils.SerializeObject(channel, bw);
+            ObjectUtils.SerializeObject(photo, bw);
 
         }
-        public override void DeserializeResponse(BinaryReader br)
+        public override void deserializeResponse(BinaryReader br)
         {
             Response = (TLAbsUpdates)ObjectUtils.DeserializeObject(br);
 

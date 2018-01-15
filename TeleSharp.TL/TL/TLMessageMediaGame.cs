@@ -18,7 +18,7 @@ namespace TeleSharp.TL
             }
         }
 
-        public TLGame Game { get; set; }
+        public TLGame game { get; set; }
 
 
         public void ComputeFlags()
@@ -28,14 +28,14 @@ namespace TeleSharp.TL
 
         public override void DeserializeBody(BinaryReader br)
         {
-            Game = (TLGame)ObjectUtils.DeserializeObject(br);
+            game = (TLGame)ObjectUtils.DeserializeObject(br);
 
         }
 
         public override void SerializeBody(BinaryWriter bw)
         {
             bw.Write(Constructor);
-            ObjectUtils.SerializeObject(Game, bw);
+            ObjectUtils.SerializeObject(game, bw);
 
         }
     }

@@ -18,37 +18,37 @@ namespace TeleSharp.TL
             }
         }
 
-        public int Flags { get; set; }
-        public int UserId { get; set; }
-        public string Query { get; set; }
-        public TLAbsGeoPoint Geo { get; set; }
-        public string Id { get; set; }
-        public TLInputBotInlineMessageID MsgId { get; set; }
+        public int flags { get; set; }
+        public int user_id { get; set; }
+        public string query { get; set; }
+        public TLAbsGeoPoint geo { get; set; }
+        public string id { get; set; }
+        public TLInputBotInlineMessageID msg_id { get; set; }
 
 
         public void ComputeFlags()
         {
-            Flags = 0;
-            Flags = Geo != null ? (Flags | 1) : (Flags & ~1);
-            Flags = MsgId != null ? (Flags | 2) : (Flags & ~2);
+            flags = 0;
+            flags = geo != null ? (flags | 1) : (flags & ~1);
+            flags = msg_id != null ? (flags | 2) : (flags & ~2);
 
         }
 
         public override void DeserializeBody(BinaryReader br)
         {
-            Flags = br.ReadInt32();
-            UserId = br.ReadInt32();
-            Query = StringUtil.Deserialize(br);
-            if ((Flags & 1) != 0)
-                Geo = (TLAbsGeoPoint)ObjectUtils.DeserializeObject(br);
+            flags = br.ReadInt32();
+            user_id = br.ReadInt32();
+            query = StringUtil.Deserialize(br);
+            if ((flags & 1) != 0)
+                geo = (TLAbsGeoPoint)ObjectUtils.DeserializeObject(br);
             else
-                Geo = null;
+                geo = null;
 
-            Id = StringUtil.Deserialize(br);
-            if ((Flags & 2) != 0)
-                MsgId = (TLInputBotInlineMessageID)ObjectUtils.DeserializeObject(br);
+            id = StringUtil.Deserialize(br);
+            if ((flags & 2) != 0)
+                msg_id = (TLInputBotInlineMessageID)ObjectUtils.DeserializeObject(br);
             else
-                MsgId = null;
+                msg_id = null;
 
 
         }
@@ -57,14 +57,14 @@ namespace TeleSharp.TL
         {
             bw.Write(Constructor);
             ComputeFlags();
-            bw.Write(Flags);
-            bw.Write(UserId);
-            StringUtil.Serialize(Query, bw);
-            if ((Flags & 1) != 0)
-                ObjectUtils.SerializeObject(Geo, bw);
-            StringUtil.Serialize(Id, bw);
-            if ((Flags & 2) != 0)
-                ObjectUtils.SerializeObject(MsgId, bw);
+            bw.Write(flags);
+            bw.Write(user_id);
+            StringUtil.Serialize(query, bw);
+            if ((flags & 1) != 0)
+                ObjectUtils.SerializeObject(geo, bw);
+            StringUtil.Serialize(id, bw);
+            if ((flags & 2) != 0)
+                ObjectUtils.SerializeObject(msg_id, bw);
 
         }
     }

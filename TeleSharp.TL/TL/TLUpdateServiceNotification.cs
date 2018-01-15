@@ -18,36 +18,36 @@ namespace TeleSharp.TL
             }
         }
 
-        public int Flags { get; set; }
-        public bool Popup { get; set; }
-        public int? InboxDate { get; set; }
-        public string Type { get; set; }
-        public string Message { get; set; }
-        public TLAbsMessageMedia Media { get; set; }
-        public TLVector<TLAbsMessageEntity> Entities { get; set; }
+        public int flags { get; set; }
+        public bool popup { get; set; }
+        public int? inbox_date { get; set; }
+        public string type { get; set; }
+        public string message { get; set; }
+        public TLAbsMessageMedia media { get; set; }
+        public TLVector<TLAbsMessageEntity> entities { get; set; }
 
 
         public void ComputeFlags()
         {
-            Flags = 0;
-            Flags = Popup ? (Flags | 1) : (Flags & ~1);
-            Flags = InboxDate != null ? (Flags | 2) : (Flags & ~2);
+            flags = 0;
+            flags = popup ? (flags | 1) : (flags & ~1);
+            flags = inbox_date != null ? (flags | 2) : (flags & ~2);
 
         }
 
         public override void DeserializeBody(BinaryReader br)
         {
-            Flags = br.ReadInt32();
-            Popup = (Flags & 1) != 0;
-            if ((Flags & 2) != 0)
-                InboxDate = br.ReadInt32();
+            flags = br.ReadInt32();
+            popup = (flags & 1) != 0;
+            if ((flags & 2) != 0)
+                inbox_date = br.ReadInt32();
             else
-                InboxDate = null;
+                inbox_date = null;
 
-            Type = StringUtil.Deserialize(br);
-            Message = StringUtil.Deserialize(br);
-            Media = (TLAbsMessageMedia)ObjectUtils.DeserializeObject(br);
-            Entities = (TLVector<TLAbsMessageEntity>)ObjectUtils.DeserializeVector<TLAbsMessageEntity>(br);
+            type = StringUtil.Deserialize(br);
+            message = StringUtil.Deserialize(br);
+            media = (TLAbsMessageMedia)ObjectUtils.DeserializeObject(br);
+            entities = (TLVector<TLAbsMessageEntity>)ObjectUtils.DeserializeVector<TLAbsMessageEntity>(br);
 
         }
 
@@ -55,14 +55,14 @@ namespace TeleSharp.TL
         {
             bw.Write(Constructor);
             ComputeFlags();
-            bw.Write(Flags);
+            bw.Write(flags);
 
-            if ((Flags & 2) != 0)
-                bw.Write(InboxDate.Value);
-            StringUtil.Serialize(Type, bw);
-            StringUtil.Serialize(Message, bw);
-            ObjectUtils.SerializeObject(Media, bw);
-            ObjectUtils.SerializeObject(Entities, bw);
+            if ((flags & 2) != 0)
+                bw.Write(inbox_date.Value);
+            StringUtil.Serialize(type, bw);
+            StringUtil.Serialize(message, bw);
+            ObjectUtils.SerializeObject(media, bw);
+            ObjectUtils.SerializeObject(entities, bw);
 
         }
     }

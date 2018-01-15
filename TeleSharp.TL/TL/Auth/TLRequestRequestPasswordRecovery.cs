@@ -36,7 +36,7 @@ namespace TeleSharp.TL.Auth
             bw.Write(Constructor);
 
         }
-        public override void DeserializeResponse(BinaryReader br)
+        public override void deserializeResponse(BinaryReader br)
         {
             Response = (Auth.TLPasswordRecovery)ObjectUtils.DeserializeObject(br);
 

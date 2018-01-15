@@ -18,10 +18,10 @@ namespace TeleSharp.TL.Channels
             }
         }
 
-        public TLAbsInputChannel Channel { get; set; }
-        public TLAbsChannelParticipantsFilter Filter { get; set; }
-        public int Offset { get; set; }
-        public int Limit { get; set; }
+        public TLAbsInputChannel channel { get; set; }
+        public TLAbsChannelParticipantsFilter filter { get; set; }
+        public int offset { get; set; }
+        public int limit { get; set; }
         public Channels.TLChannelParticipants Response { get; set; }
 
 
@@ -32,23 +32,23 @@ namespace TeleSharp.TL.Channels
 
         public override void DeserializeBody(BinaryReader br)
         {
-            Channel = (TLAbsInputChannel)ObjectUtils.DeserializeObject(br);
-            Filter = (TLAbsChannelParticipantsFilter)ObjectUtils.DeserializeObject(br);
-            Offset = br.ReadInt32();
-            Limit = br.ReadInt32();
+            channel = (TLAbsInputChannel)ObjectUtils.DeserializeObject(br);
+            filter = (TLAbsChannelParticipantsFilter)ObjectUtils.DeserializeObject(br);
+            offset = br.ReadInt32();
+            limit = br.ReadInt32();
 
         }
 
         public override void SerializeBody(BinaryWriter bw)
         {
             bw.Write(Constructor);
-            ObjectUtils.SerializeObject(Channel, bw);
-            ObjectUtils.SerializeObject(Filter, bw);
-            bw.Write(Offset);
-            bw.Write(Limit);
+            ObjectUtils.SerializeObject(channel, bw);
+            ObjectUtils.SerializeObject(filter, bw);
+            bw.Write(offset);
+            bw.Write(limit);
 
         }
-        public override void DeserializeResponse(BinaryReader br)
+        public override void deserializeResponse(BinaryReader br)
         {
             Response = (Channels.TLChannelParticipants)ObjectUtils.DeserializeObject(br);
 

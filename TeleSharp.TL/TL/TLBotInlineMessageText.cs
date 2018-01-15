@@ -18,36 +18,36 @@ namespace TeleSharp.TL
             }
         }
 
-        public int Flags { get; set; }
-        public bool NoWebpage { get; set; }
-        public string Message { get; set; }
-        public TLVector<TLAbsMessageEntity> Entities { get; set; }
-        public TLAbsReplyMarkup ReplyMarkup { get; set; }
+        public int flags { get; set; }
+        public bool no_webpage { get; set; }
+        public string message { get; set; }
+        public TLVector<TLAbsMessageEntity> entities { get; set; }
+        public TLAbsReplyMarkup reply_markup { get; set; }
 
 
         public void ComputeFlags()
         {
-            Flags = 0;
-            Flags = NoWebpage ? (Flags | 1) : (Flags & ~1);
-            Flags = Entities != null ? (Flags | 2) : (Flags & ~2);
-            Flags = ReplyMarkup != null ? (Flags | 4) : (Flags & ~4);
+            flags = 0;
+            flags = no_webpage ? (flags | 1) : (flags & ~1);
+            flags = entities != null ? (flags | 2) : (flags & ~2);
+            flags = reply_markup != null ? (flags | 4) : (flags & ~4);
 
         }
 
         public override void DeserializeBody(BinaryReader br)
         {
-            Flags = br.ReadInt32();
-            NoWebpage = (Flags & 1) != 0;
-            Message = StringUtil.Deserialize(br);
-            if ((Flags & 2) != 0)
-                Entities = (TLVector<TLAbsMessageEntity>)ObjectUtils.DeserializeVector<TLAbsMessageEntity>(br);
+            flags = br.ReadInt32();
+            no_webpage = (flags & 1) != 0;
+            message = StringUtil.Deserialize(br);
+            if ((flags & 2) != 0)
+                entities = (TLVector<TLAbsMessageEntity>)ObjectUtils.DeserializeVector<TLAbsMessageEntity>(br);
             else
-                Entities = null;
+                entities = null;
 
-            if ((Flags & 4) != 0)
-                ReplyMarkup = (TLAbsReplyMarkup)ObjectUtils.DeserializeObject(br);
+            if ((flags & 4) != 0)
+                reply_markup = (TLAbsReplyMarkup)ObjectUtils.DeserializeObject(br);
             else
-                ReplyMarkup = null;
+                reply_markup = null;
 
 
         }
@@ -56,13 +56,13 @@ namespace TeleSharp.TL
         {
             bw.Write(Constructor);
             ComputeFlags();
-            bw.Write(Flags);
+            bw.Write(flags);
 
-            StringUtil.Serialize(Message, bw);
-            if ((Flags & 2) != 0)
-                ObjectUtils.SerializeObject(Entities, bw);
-            if ((Flags & 4) != 0)
-                ObjectUtils.SerializeObject(ReplyMarkup, bw);
+            StringUtil.Serialize(message, bw);
+            if ((flags & 2) != 0)
+                ObjectUtils.SerializeObject(entities, bw);
+            if ((flags & 4) != 0)
+                ObjectUtils.SerializeObject(reply_markup, bw);
 
         }
     }

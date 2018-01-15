@@ -18,7 +18,7 @@ namespace TeleSharp.TL.Help
             }
         }
 
-        public TLVector<TLInputAppEvent> Events { get; set; }
+        public TLVector<TLInputAppEvent> events { get; set; }
         public bool Response { get; set; }
 
 
@@ -29,17 +29,17 @@ namespace TeleSharp.TL.Help
 
         public override void DeserializeBody(BinaryReader br)
         {
-            Events = (TLVector<TLInputAppEvent>)ObjectUtils.DeserializeVector<TLInputAppEvent>(br);
+            events = (TLVector<TLInputAppEvent>)ObjectUtils.DeserializeVector<TLInputAppEvent>(br);
 
         }
 
         public override void SerializeBody(BinaryWriter bw)
         {
             bw.Write(Constructor);
-            ObjectUtils.SerializeObject(Events, bw);
+            ObjectUtils.SerializeObject(events, bw);
 
         }
-        public override void DeserializeResponse(BinaryReader br)
+        public override void deserializeResponse(BinaryReader br)
         {
             Response = BoolUtil.Deserialize(br);
 

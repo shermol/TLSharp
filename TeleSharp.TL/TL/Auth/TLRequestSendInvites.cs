@@ -18,8 +18,8 @@ namespace TeleSharp.TL.Auth
             }
         }
 
-        public TLVector<string> PhoneNumbers { get; set; }
-        public string Message { get; set; }
+        public TLVector<string> phone_numbers { get; set; }
+        public string message { get; set; }
         public bool Response { get; set; }
 
 
@@ -30,19 +30,19 @@ namespace TeleSharp.TL.Auth
 
         public override void DeserializeBody(BinaryReader br)
         {
-            PhoneNumbers = (TLVector<string>)ObjectUtils.DeserializeVector<string>(br);
-            Message = StringUtil.Deserialize(br);
+            phone_numbers = (TLVector<string>)ObjectUtils.DeserializeVector<string>(br);
+            message = StringUtil.Deserialize(br);
 
         }
 
         public override void SerializeBody(BinaryWriter bw)
         {
             bw.Write(Constructor);
-            ObjectUtils.SerializeObject(PhoneNumbers, bw);
-            StringUtil.Serialize(Message, bw);
+            ObjectUtils.SerializeObject(phone_numbers, bw);
+            StringUtil.Serialize(message, bw);
 
         }
-        public override void DeserializeResponse(BinaryReader br)
+        public override void deserializeResponse(BinaryReader br)
         {
             Response = BoolUtil.Deserialize(br);
 

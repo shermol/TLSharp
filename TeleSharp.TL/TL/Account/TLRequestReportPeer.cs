@@ -18,8 +18,8 @@ namespace TeleSharp.TL.Account
             }
         }
 
-        public TLAbsInputPeer Peer { get; set; }
-        public TLAbsReportReason Reason { get; set; }
+        public TLAbsInputPeer peer { get; set; }
+        public TLAbsReportReason reason { get; set; }
         public bool Response { get; set; }
 
 
@@ -30,19 +30,19 @@ namespace TeleSharp.TL.Account
 
         public override void DeserializeBody(BinaryReader br)
         {
-            Peer = (TLAbsInputPeer)ObjectUtils.DeserializeObject(br);
-            Reason = (TLAbsReportReason)ObjectUtils.DeserializeObject(br);
+            peer = (TLAbsInputPeer)ObjectUtils.DeserializeObject(br);
+            reason = (TLAbsReportReason)ObjectUtils.DeserializeObject(br);
 
         }
 
         public override void SerializeBody(BinaryWriter bw)
         {
             bw.Write(Constructor);
-            ObjectUtils.SerializeObject(Peer, bw);
-            ObjectUtils.SerializeObject(Reason, bw);
+            ObjectUtils.SerializeObject(peer, bw);
+            ObjectUtils.SerializeObject(reason, bw);
 
         }
-        public override void DeserializeResponse(BinaryReader br)
+        public override void deserializeResponse(BinaryReader br)
         {
             Response = BoolUtil.Deserialize(br);
 

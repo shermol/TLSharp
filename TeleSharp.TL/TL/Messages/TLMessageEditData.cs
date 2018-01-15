@@ -18,21 +18,21 @@ namespace TeleSharp.TL.Messages
             }
         }
 
-        public int Flags { get; set; }
-        public bool Caption { get; set; }
+        public int flags { get; set; }
+        public bool caption { get; set; }
 
 
         public void ComputeFlags()
         {
-            Flags = 0;
-            Flags = Caption ? (Flags | 1) : (Flags & ~1);
+            flags = 0;
+            flags = caption ? (flags | 1) : (flags & ~1);
 
         }
 
         public override void DeserializeBody(BinaryReader br)
         {
-            Flags = br.ReadInt32();
-            Caption = (Flags & 1) != 0;
+            flags = br.ReadInt32();
+            caption = (flags & 1) != 0;
 
         }
 
@@ -40,7 +40,7 @@ namespace TeleSharp.TL.Messages
         {
             bw.Write(Constructor);
             ComputeFlags();
-            bw.Write(Flags);
+            bw.Write(flags);
 
 
         }

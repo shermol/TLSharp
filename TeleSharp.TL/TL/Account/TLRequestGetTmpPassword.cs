@@ -18,8 +18,8 @@ namespace TeleSharp.TL.Account
             }
         }
 
-        public byte[] PasswordHash { get; set; }
-        public int Period { get; set; }
+        public byte[] password_hash { get; set; }
+        public int period { get; set; }
         public Account.TLTmpPassword Response { get; set; }
 
 
@@ -30,19 +30,19 @@ namespace TeleSharp.TL.Account
 
         public override void DeserializeBody(BinaryReader br)
         {
-            PasswordHash = BytesUtil.Deserialize(br);
-            Period = br.ReadInt32();
+            password_hash = BytesUtil.Deserialize(br);
+            period = br.ReadInt32();
 
         }
 
         public override void SerializeBody(BinaryWriter bw)
         {
             bw.Write(Constructor);
-            BytesUtil.Serialize(PasswordHash, bw);
-            bw.Write(Period);
+            BytesUtil.Serialize(password_hash, bw);
+            bw.Write(period);
 
         }
-        public override void DeserializeResponse(BinaryReader br)
+        public override void deserializeResponse(BinaryReader br)
         {
             Response = (Account.TLTmpPassword)ObjectUtils.DeserializeObject(br);
 

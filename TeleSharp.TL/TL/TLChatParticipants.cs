@@ -18,9 +18,9 @@ namespace TeleSharp.TL
             }
         }
 
-        public int ChatId { get; set; }
-        public TLVector<TLAbsChatParticipant> Participants { get; set; }
-        public int Version { get; set; }
+        public int chat_id { get; set; }
+        public TLVector<TLAbsChatParticipant> participants { get; set; }
+        public int version { get; set; }
 
 
         public void ComputeFlags()
@@ -30,18 +30,18 @@ namespace TeleSharp.TL
 
         public override void DeserializeBody(BinaryReader br)
         {
-            ChatId = br.ReadInt32();
-            Participants = (TLVector<TLAbsChatParticipant>)ObjectUtils.DeserializeVector<TLAbsChatParticipant>(br);
-            Version = br.ReadInt32();
+            chat_id = br.ReadInt32();
+            participants = (TLVector<TLAbsChatParticipant>)ObjectUtils.DeserializeVector<TLAbsChatParticipant>(br);
+            version = br.ReadInt32();
 
         }
 
         public override void SerializeBody(BinaryWriter bw)
         {
             bw.Write(Constructor);
-            bw.Write(ChatId);
-            ObjectUtils.SerializeObject(Participants, bw);
-            bw.Write(Version);
+            bw.Write(chat_id);
+            ObjectUtils.SerializeObject(participants, bw);
+            bw.Write(version);
 
         }
     }

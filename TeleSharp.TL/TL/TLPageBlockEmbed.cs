@@ -18,51 +18,51 @@ namespace TeleSharp.TL
             }
         }
 
-        public int Flags { get; set; }
-        public bool FullWidth { get; set; }
-        public bool AllowScrolling { get; set; }
-        public string Url { get; set; }
-        public string Html { get; set; }
-        public long? PosterPhotoId { get; set; }
-        public int W { get; set; }
-        public int H { get; set; }
-        public TLAbsRichText Caption { get; set; }
+        public int flags { get; set; }
+        public bool full_width { get; set; }
+        public bool allow_scrolling { get; set; }
+        public string url { get; set; }
+        public string html { get; set; }
+        public long? poster_photo_id { get; set; }
+        public int w { get; set; }
+        public int h { get; set; }
+        public TLAbsRichText caption { get; set; }
 
 
         public void ComputeFlags()
         {
-            Flags = 0;
-            Flags = FullWidth ? (Flags | 1) : (Flags & ~1);
-            Flags = AllowScrolling ? (Flags | 8) : (Flags & ~8);
-            Flags = Url != null ? (Flags | 2) : (Flags & ~2);
-            Flags = Html != null ? (Flags | 4) : (Flags & ~4);
-            Flags = PosterPhotoId != null ? (Flags | 16) : (Flags & ~16);
+            flags = 0;
+            flags = full_width ? (flags | 1) : (flags & ~1);
+            flags = allow_scrolling ? (flags | 8) : (flags & ~8);
+            flags = url != null ? (flags | 2) : (flags & ~2);
+            flags = html != null ? (flags | 4) : (flags & ~4);
+            flags = poster_photo_id != null ? (flags | 16) : (flags & ~16);
 
         }
 
         public override void DeserializeBody(BinaryReader br)
         {
-            Flags = br.ReadInt32();
-            FullWidth = (Flags & 1) != 0;
-            AllowScrolling = (Flags & 8) != 0;
-            if ((Flags & 2) != 0)
-                Url = StringUtil.Deserialize(br);
+            flags = br.ReadInt32();
+            full_width = (flags & 1) != 0;
+            allow_scrolling = (flags & 8) != 0;
+            if ((flags & 2) != 0)
+                url = StringUtil.Deserialize(br);
             else
-                Url = null;
+                url = null;
 
-            if ((Flags & 4) != 0)
-                Html = StringUtil.Deserialize(br);
+            if ((flags & 4) != 0)
+                html = StringUtil.Deserialize(br);
             else
-                Html = null;
+                html = null;
 
-            if ((Flags & 16) != 0)
-                PosterPhotoId = br.ReadInt64();
+            if ((flags & 16) != 0)
+                poster_photo_id = br.ReadInt64();
             else
-                PosterPhotoId = null;
+                poster_photo_id = null;
 
-            W = br.ReadInt32();
-            H = br.ReadInt32();
-            Caption = (TLAbsRichText)ObjectUtils.DeserializeObject(br);
+            w = br.ReadInt32();
+            h = br.ReadInt32();
+            caption = (TLAbsRichText)ObjectUtils.DeserializeObject(br);
 
         }
 
@@ -70,18 +70,18 @@ namespace TeleSharp.TL
         {
             bw.Write(Constructor);
             ComputeFlags();
-            bw.Write(Flags);
+            bw.Write(flags);
 
 
-            if ((Flags & 2) != 0)
-                StringUtil.Serialize(Url, bw);
-            if ((Flags & 4) != 0)
-                StringUtil.Serialize(Html, bw);
-            if ((Flags & 16) != 0)
-                bw.Write(PosterPhotoId.Value);
-            bw.Write(W);
-            bw.Write(H);
-            ObjectUtils.SerializeObject(Caption, bw);
+            if ((flags & 2) != 0)
+                StringUtil.Serialize(url, bw);
+            if ((flags & 4) != 0)
+                StringUtil.Serialize(html, bw);
+            if ((flags & 16) != 0)
+                bw.Write(poster_photo_id.Value);
+            bw.Write(w);
+            bw.Write(h);
+            ObjectUtils.SerializeObject(caption, bw);
 
         }
     }

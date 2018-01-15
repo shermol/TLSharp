@@ -18,9 +18,9 @@ namespace TeleSharp.TL.Messages
             }
         }
 
-        public TLAbsInputPeer Peer { get; set; }
-        public int Id { get; set; }
-        public TLAbsInputUser UserId { get; set; }
+        public TLAbsInputPeer peer { get; set; }
+        public int id { get; set; }
+        public TLAbsInputUser user_id { get; set; }
         public Messages.TLHighScores Response { get; set; }
 
 
@@ -31,21 +31,21 @@ namespace TeleSharp.TL.Messages
 
         public override void DeserializeBody(BinaryReader br)
         {
-            Peer = (TLAbsInputPeer)ObjectUtils.DeserializeObject(br);
-            Id = br.ReadInt32();
-            UserId = (TLAbsInputUser)ObjectUtils.DeserializeObject(br);
+            peer = (TLAbsInputPeer)ObjectUtils.DeserializeObject(br);
+            id = br.ReadInt32();
+            user_id = (TLAbsInputUser)ObjectUtils.DeserializeObject(br);
 
         }
 
         public override void SerializeBody(BinaryWriter bw)
         {
             bw.Write(Constructor);
-            ObjectUtils.SerializeObject(Peer, bw);
-            bw.Write(Id);
-            ObjectUtils.SerializeObject(UserId, bw);
+            ObjectUtils.SerializeObject(peer, bw);
+            bw.Write(id);
+            ObjectUtils.SerializeObject(user_id, bw);
 
         }
-        public override void DeserializeResponse(BinaryReader br)
+        public override void deserializeResponse(BinaryReader br)
         {
             Response = (Messages.TLHighScores)ObjectUtils.DeserializeObject(br);
 

@@ -18,7 +18,7 @@ namespace TeleSharp.TL.Auth
             }
         }
 
-        public string PhoneNumber { get; set; }
+        public string phone_number { get; set; }
         public Auth.TLCheckedPhone Response { get; set; }
 
 
@@ -29,17 +29,17 @@ namespace TeleSharp.TL.Auth
 
         public override void DeserializeBody(BinaryReader br)
         {
-            PhoneNumber = StringUtil.Deserialize(br);
+            phone_number = StringUtil.Deserialize(br);
 
         }
 
         public override void SerializeBody(BinaryWriter bw)
         {
             bw.Write(Constructor);
-            StringUtil.Serialize(PhoneNumber, bw);
+            StringUtil.Serialize(phone_number, bw);
 
         }
-        public override void DeserializeResponse(BinaryReader br)
+        public override void deserializeResponse(BinaryReader br)
         {
             Response = (Auth.TLCheckedPhone)ObjectUtils.DeserializeObject(br);
 

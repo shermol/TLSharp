@@ -18,7 +18,7 @@ namespace TeleSharp.TL.Auth
             }
         }
 
-        public string Code { get; set; }
+        public string code { get; set; }
         public Auth.TLAuthorization Response { get; set; }
 
 
@@ -29,17 +29,17 @@ namespace TeleSharp.TL.Auth
 
         public override void DeserializeBody(BinaryReader br)
         {
-            Code = StringUtil.Deserialize(br);
+            code = StringUtil.Deserialize(br);
 
         }
 
         public override void SerializeBody(BinaryWriter bw)
         {
             bw.Write(Constructor);
-            StringUtil.Serialize(Code, bw);
+            StringUtil.Serialize(code, bw);
 
         }
-        public override void DeserializeResponse(BinaryReader br)
+        public override void deserializeResponse(BinaryReader br)
         {
             Response = (Auth.TLAuthorization)ObjectUtils.DeserializeObject(br);
 

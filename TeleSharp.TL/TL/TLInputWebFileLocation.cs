@@ -18,8 +18,8 @@ namespace TeleSharp.TL
             }
         }
 
-        public string Url { get; set; }
-        public long AccessHash { get; set; }
+        public string url { get; set; }
+        public long access_hash { get; set; }
 
 
         public void ComputeFlags()
@@ -29,16 +29,16 @@ namespace TeleSharp.TL
 
         public override void DeserializeBody(BinaryReader br)
         {
-            Url = StringUtil.Deserialize(br);
-            AccessHash = br.ReadInt64();
+            url = StringUtil.Deserialize(br);
+            access_hash = br.ReadInt64();
 
         }
 
         public override void SerializeBody(BinaryWriter bw)
         {
             bw.Write(Constructor);
-            StringUtil.Serialize(Url, bw);
-            bw.Write(AccessHash);
+            StringUtil.Serialize(url, bw);
+            bw.Write(access_hash);
 
         }
     }

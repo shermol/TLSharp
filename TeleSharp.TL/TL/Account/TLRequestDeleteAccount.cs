@@ -18,7 +18,7 @@ namespace TeleSharp.TL.Account
             }
         }
 
-        public string Reason { get; set; }
+        public string reason { get; set; }
         public bool Response { get; set; }
 
 
@@ -29,17 +29,17 @@ namespace TeleSharp.TL.Account
 
         public override void DeserializeBody(BinaryReader br)
         {
-            Reason = StringUtil.Deserialize(br);
+            reason = StringUtil.Deserialize(br);
 
         }
 
         public override void SerializeBody(BinaryWriter bw)
         {
             bw.Write(Constructor);
-            StringUtil.Serialize(Reason, bw);
+            StringUtil.Serialize(reason, bw);
 
         }
-        public override void DeserializeResponse(BinaryReader br)
+        public override void deserializeResponse(BinaryReader br)
         {
             Response = BoolUtil.Deserialize(br);
 

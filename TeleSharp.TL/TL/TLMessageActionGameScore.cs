@@ -18,8 +18,8 @@ namespace TeleSharp.TL
             }
         }
 
-        public long GameId { get; set; }
-        public int Score { get; set; }
+        public long game_id { get; set; }
+        public int score { get; set; }
 
 
         public void ComputeFlags()
@@ -29,16 +29,16 @@ namespace TeleSharp.TL
 
         public override void DeserializeBody(BinaryReader br)
         {
-            GameId = br.ReadInt64();
-            Score = br.ReadInt32();
+            game_id = br.ReadInt64();
+            score = br.ReadInt32();
 
         }
 
         public override void SerializeBody(BinaryWriter bw)
         {
             bw.Write(Constructor);
-            bw.Write(GameId);
-            bw.Write(Score);
+            bw.Write(game_id);
+            bw.Write(score);
 
         }
     }

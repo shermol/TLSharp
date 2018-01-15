@@ -18,8 +18,8 @@ namespace TeleSharp.TL
             }
         }
 
-        public long Id { get; set; }
-        public int Date { get; set; }
+        public long id { get; set; }
+        public int date { get; set; }
 
 
         public void ComputeFlags()
@@ -29,16 +29,16 @@ namespace TeleSharp.TL
 
         public override void DeserializeBody(BinaryReader br)
         {
-            Id = br.ReadInt64();
-            Date = br.ReadInt32();
+            id = br.ReadInt64();
+            date = br.ReadInt32();
 
         }
 
         public override void SerializeBody(BinaryWriter bw)
         {
             bw.Write(Constructor);
-            bw.Write(Id);
-            bw.Write(Date);
+            bw.Write(id);
+            bw.Write(date);
 
         }
     }

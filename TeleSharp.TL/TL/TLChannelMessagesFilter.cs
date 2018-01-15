@@ -18,23 +18,23 @@ namespace TeleSharp.TL
             }
         }
 
-        public int Flags { get; set; }
-        public bool ExcludeNewMessages { get; set; }
-        public TLVector<TLMessageRange> Ranges { get; set; }
+        public int flags { get; set; }
+        public bool exclude_new_messages { get; set; }
+        public TLVector<TLMessageRange> ranges { get; set; }
 
 
         public void ComputeFlags()
         {
-            Flags = 0;
-            Flags = ExcludeNewMessages ? (Flags | 2) : (Flags & ~2);
+            flags = 0;
+            flags = exclude_new_messages ? (flags | 2) : (flags & ~2);
 
         }
 
         public override void DeserializeBody(BinaryReader br)
         {
-            Flags = br.ReadInt32();
-            ExcludeNewMessages = (Flags & 2) != 0;
-            Ranges = (TLVector<TLMessageRange>)ObjectUtils.DeserializeVector<TLMessageRange>(br);
+            flags = br.ReadInt32();
+            exclude_new_messages = (flags & 2) != 0;
+            ranges = (TLVector<TLMessageRange>)ObjectUtils.DeserializeVector<TLMessageRange>(br);
 
         }
 
@@ -42,9 +42,9 @@ namespace TeleSharp.TL
         {
             bw.Write(Constructor);
             ComputeFlags();
-            bw.Write(Flags);
+            bw.Write(flags);
 
-            ObjectUtils.SerializeObject(Ranges, bw);
+            ObjectUtils.SerializeObject(ranges, bw);
 
         }
     }

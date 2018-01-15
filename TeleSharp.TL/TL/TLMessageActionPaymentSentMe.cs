@@ -18,40 +18,40 @@ namespace TeleSharp.TL
             }
         }
 
-        public int Flags { get; set; }
-        public string Currency { get; set; }
-        public long TotalAmount { get; set; }
-        public byte[] Payload { get; set; }
-        public TLPaymentRequestedInfo Info { get; set; }
-        public string ShippingOptionId { get; set; }
-        public TLPaymentCharge Charge { get; set; }
+        public int flags { get; set; }
+        public string currency { get; set; }
+        public long total_amount { get; set; }
+        public byte[] payload { get; set; }
+        public TLPaymentRequestedInfo info { get; set; }
+        public string shipping_option_id { get; set; }
+        public TLPaymentCharge charge { get; set; }
 
 
         public void ComputeFlags()
         {
-            Flags = 0;
-            Flags = Info != null ? (Flags | 1) : (Flags & ~1);
-            Flags = ShippingOptionId != null ? (Flags | 2) : (Flags & ~2);
+            flags = 0;
+            flags = info != null ? (flags | 1) : (flags & ~1);
+            flags = shipping_option_id != null ? (flags | 2) : (flags & ~2);
 
         }
 
         public override void DeserializeBody(BinaryReader br)
         {
-            Flags = br.ReadInt32();
-            Currency = StringUtil.Deserialize(br);
-            TotalAmount = br.ReadInt64();
-            Payload = BytesUtil.Deserialize(br);
-            if ((Flags & 1) != 0)
-                Info = (TLPaymentRequestedInfo)ObjectUtils.DeserializeObject(br);
+            flags = br.ReadInt32();
+            currency = StringUtil.Deserialize(br);
+            total_amount = br.ReadInt64();
+            payload = BytesUtil.Deserialize(br);
+            if ((flags & 1) != 0)
+                info = (TLPaymentRequestedInfo)ObjectUtils.DeserializeObject(br);
             else
-                Info = null;
+                info = null;
 
-            if ((Flags & 2) != 0)
-                ShippingOptionId = StringUtil.Deserialize(br);
+            if ((flags & 2) != 0)
+                shipping_option_id = StringUtil.Deserialize(br);
             else
-                ShippingOptionId = null;
+                shipping_option_id = null;
 
-            Charge = (TLPaymentCharge)ObjectUtils.DeserializeObject(br);
+            charge = (TLPaymentCharge)ObjectUtils.DeserializeObject(br);
 
         }
 
@@ -59,15 +59,15 @@ namespace TeleSharp.TL
         {
             bw.Write(Constructor);
             ComputeFlags();
-            bw.Write(Flags);
-            StringUtil.Serialize(Currency, bw);
-            bw.Write(TotalAmount);
-            BytesUtil.Serialize(Payload, bw);
-            if ((Flags & 1) != 0)
-                ObjectUtils.SerializeObject(Info, bw);
-            if ((Flags & 2) != 0)
-                StringUtil.Serialize(ShippingOptionId, bw);
-            ObjectUtils.SerializeObject(Charge, bw);
+            bw.Write(flags);
+            StringUtil.Serialize(currency, bw);
+            bw.Write(total_amount);
+            BytesUtil.Serialize(payload, bw);
+            if ((flags & 1) != 0)
+                ObjectUtils.SerializeObject(info, bw);
+            if ((flags & 2) != 0)
+                StringUtil.Serialize(shipping_option_id, bw);
+            ObjectUtils.SerializeObject(charge, bw);
 
         }
     }

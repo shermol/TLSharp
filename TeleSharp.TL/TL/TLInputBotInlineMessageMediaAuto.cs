@@ -18,26 +18,26 @@ namespace TeleSharp.TL
             }
         }
 
-        public int Flags { get; set; }
-        public string Caption { get; set; }
-        public TLAbsReplyMarkup ReplyMarkup { get; set; }
+        public int flags { get; set; }
+        public string caption { get; set; }
+        public TLAbsReplyMarkup reply_markup { get; set; }
 
 
         public void ComputeFlags()
         {
-            Flags = 0;
-            Flags = ReplyMarkup != null ? (Flags | 4) : (Flags & ~4);
+            flags = 0;
+            flags = reply_markup != null ? (flags | 4) : (flags & ~4);
 
         }
 
         public override void DeserializeBody(BinaryReader br)
         {
-            Flags = br.ReadInt32();
-            Caption = StringUtil.Deserialize(br);
-            if ((Flags & 4) != 0)
-                ReplyMarkup = (TLAbsReplyMarkup)ObjectUtils.DeserializeObject(br);
+            flags = br.ReadInt32();
+            caption = StringUtil.Deserialize(br);
+            if ((flags & 4) != 0)
+                reply_markup = (TLAbsReplyMarkup)ObjectUtils.DeserializeObject(br);
             else
-                ReplyMarkup = null;
+                reply_markup = null;
 
 
         }
@@ -46,10 +46,10 @@ namespace TeleSharp.TL
         {
             bw.Write(Constructor);
             ComputeFlags();
-            bw.Write(Flags);
-            StringUtil.Serialize(Caption, bw);
-            if ((Flags & 4) != 0)
-                ObjectUtils.SerializeObject(ReplyMarkup, bw);
+            bw.Write(flags);
+            StringUtil.Serialize(caption, bw);
+            if ((flags & 4) != 0)
+                ObjectUtils.SerializeObject(reply_markup, bw);
 
         }
     }

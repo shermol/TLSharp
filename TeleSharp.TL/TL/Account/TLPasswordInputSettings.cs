@@ -18,45 +18,45 @@ namespace TeleSharp.TL.Account
             }
         }
 
-        public int Flags { get; set; }
-        public byte[] NewSalt { get; set; }
-        public byte[] NewPasswordHash { get; set; }
-        public string Hint { get; set; }
-        public string Email { get; set; }
+        public int flags { get; set; }
+        public byte[] new_salt { get; set; }
+        public byte[] new_password_hash { get; set; }
+        public string hint { get; set; }
+        public string email { get; set; }
 
 
         public void ComputeFlags()
         {
-            Flags = 0;
-            Flags = NewSalt != null ? (Flags | 1) : (Flags & ~1);
-            Flags = NewPasswordHash != null ? (Flags | 1) : (Flags & ~1);
-            Flags = Hint != null ? (Flags | 1) : (Flags & ~1);
-            Flags = Email != null ? (Flags | 2) : (Flags & ~2);
+            flags = 0;
+            flags = new_salt != null ? (flags | 1) : (flags & ~1);
+            flags = new_password_hash != null ? (flags | 1) : (flags & ~1);
+            flags = hint != null ? (flags | 1) : (flags & ~1);
+            flags = email != null ? (flags | 2) : (flags & ~2);
 
         }
 
         public override void DeserializeBody(BinaryReader br)
         {
-            Flags = br.ReadInt32();
-            if ((Flags & 1) != 0)
-                NewSalt = BytesUtil.Deserialize(br);
+            flags = br.ReadInt32();
+            if ((flags & 1) != 0)
+                new_salt = BytesUtil.Deserialize(br);
             else
-                NewSalt = null;
+                new_salt = null;
 
-            if ((Flags & 1) != 0)
-                NewPasswordHash = BytesUtil.Deserialize(br);
+            if ((flags & 1) != 0)
+                new_password_hash = BytesUtil.Deserialize(br);
             else
-                NewPasswordHash = null;
+                new_password_hash = null;
 
-            if ((Flags & 1) != 0)
-                Hint = StringUtil.Deserialize(br);
+            if ((flags & 1) != 0)
+                hint = StringUtil.Deserialize(br);
             else
-                Hint = null;
+                hint = null;
 
-            if ((Flags & 2) != 0)
-                Email = StringUtil.Deserialize(br);
+            if ((flags & 2) != 0)
+                email = StringUtil.Deserialize(br);
             else
-                Email = null;
+                email = null;
 
 
         }
@@ -65,15 +65,15 @@ namespace TeleSharp.TL.Account
         {
             bw.Write(Constructor);
             ComputeFlags();
-            bw.Write(Flags);
-            if ((Flags & 1) != 0)
-                BytesUtil.Serialize(NewSalt, bw);
-            if ((Flags & 1) != 0)
-                BytesUtil.Serialize(NewPasswordHash, bw);
-            if ((Flags & 1) != 0)
-                StringUtil.Serialize(Hint, bw);
-            if ((Flags & 2) != 0)
-                StringUtil.Serialize(Email, bw);
+            bw.Write(flags);
+            if ((flags & 1) != 0)
+                BytesUtil.Serialize(new_salt, bw);
+            if ((flags & 1) != 0)
+                BytesUtil.Serialize(new_password_hash, bw);
+            if ((flags & 1) != 0)
+                StringUtil.Serialize(hint, bw);
+            if ((flags & 2) != 0)
+                StringUtil.Serialize(email, bw);
 
         }
     }

@@ -18,8 +18,8 @@ namespace TeleSharp.TL.Upload
             }
         }
 
-        public byte[] FileToken { get; set; }
-        public byte[] RequestToken { get; set; }
+        public byte[] file_token { get; set; }
+        public byte[] request_token { get; set; }
         public bool Response { get; set; }
 
 
@@ -30,19 +30,19 @@ namespace TeleSharp.TL.Upload
 
         public override void DeserializeBody(BinaryReader br)
         {
-            FileToken = BytesUtil.Deserialize(br);
-            RequestToken = BytesUtil.Deserialize(br);
+            file_token = BytesUtil.Deserialize(br);
+            request_token = BytesUtil.Deserialize(br);
 
         }
 
         public override void SerializeBody(BinaryWriter bw)
         {
             bw.Write(Constructor);
-            BytesUtil.Serialize(FileToken, bw);
-            BytesUtil.Serialize(RequestToken, bw);
+            BytesUtil.Serialize(file_token, bw);
+            BytesUtil.Serialize(request_token, bw);
 
         }
-        public override void DeserializeResponse(BinaryReader br)
+        public override void deserializeResponse(BinaryReader br)
         {
             Response = BoolUtil.Deserialize(br);
 

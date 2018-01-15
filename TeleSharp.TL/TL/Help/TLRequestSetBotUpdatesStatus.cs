@@ -18,8 +18,8 @@ namespace TeleSharp.TL.Help
             }
         }
 
-        public int PendingUpdatesCount { get; set; }
-        public string Message { get; set; }
+        public int pending_updates_count { get; set; }
+        public string message { get; set; }
         public bool Response { get; set; }
 
 
@@ -30,19 +30,19 @@ namespace TeleSharp.TL.Help
 
         public override void DeserializeBody(BinaryReader br)
         {
-            PendingUpdatesCount = br.ReadInt32();
-            Message = StringUtil.Deserialize(br);
+            pending_updates_count = br.ReadInt32();
+            message = StringUtil.Deserialize(br);
 
         }
 
         public override void SerializeBody(BinaryWriter bw)
         {
             bw.Write(Constructor);
-            bw.Write(PendingUpdatesCount);
-            StringUtil.Serialize(Message, bw);
+            bw.Write(pending_updates_count);
+            StringUtil.Serialize(message, bw);
 
         }
-        public override void DeserializeResponse(BinaryReader br)
+        public override void deserializeResponse(BinaryReader br)
         {
             Response = BoolUtil.Deserialize(br);
 

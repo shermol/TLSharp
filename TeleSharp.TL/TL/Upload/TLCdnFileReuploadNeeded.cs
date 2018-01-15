@@ -18,7 +18,7 @@ namespace TeleSharp.TL.Upload
             }
         }
 
-        public byte[] RequestToken { get; set; }
+        public byte[] request_token { get; set; }
 
 
         public void ComputeFlags()
@@ -28,14 +28,14 @@ namespace TeleSharp.TL.Upload
 
         public override void DeserializeBody(BinaryReader br)
         {
-            RequestToken = BytesUtil.Deserialize(br);
+            request_token = BytesUtil.Deserialize(br);
 
         }
 
         public override void SerializeBody(BinaryWriter bw)
         {
             bw.Write(Constructor);
-            BytesUtil.Serialize(RequestToken, bw);
+            BytesUtil.Serialize(request_token, bw);
 
         }
     }

@@ -18,8 +18,8 @@ namespace TeleSharp.TL.Photos
             }
         }
 
-        public TLAbsPhoto Photo { get; set; }
-        public TLVector<TLAbsUser> Users { get; set; }
+        public TLAbsPhoto photo { get; set; }
+        public TLVector<TLAbsUser> users { get; set; }
 
 
         public void ComputeFlags()
@@ -29,16 +29,16 @@ namespace TeleSharp.TL.Photos
 
         public override void DeserializeBody(BinaryReader br)
         {
-            Photo = (TLAbsPhoto)ObjectUtils.DeserializeObject(br);
-            Users = (TLVector<TLAbsUser>)ObjectUtils.DeserializeVector<TLAbsUser>(br);
+            photo = (TLAbsPhoto)ObjectUtils.DeserializeObject(br);
+            users = (TLVector<TLAbsUser>)ObjectUtils.DeserializeVector<TLAbsUser>(br);
 
         }
 
         public override void SerializeBody(BinaryWriter bw)
         {
             bw.Write(Constructor);
-            ObjectUtils.SerializeObject(Photo, bw);
-            ObjectUtils.SerializeObject(Users, bw);
+            ObjectUtils.SerializeObject(photo, bw);
+            ObjectUtils.SerializeObject(users, bw);
 
         }
     }

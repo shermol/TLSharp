@@ -99,7 +99,7 @@ You can call any method on authenticated user. For example, let's send message t
   var result = await client.GetContactsAsync();
 
   //find recipient in contacts
-  var user = result.Users.lists
+  var user = result.users.lists
 	  .Where(x => x.GetType() == typeof (TLUser))
 	  .Cast<TLUser>()
 	  .FirstOrDefault(x => x.phone == "<recipient_phone>");

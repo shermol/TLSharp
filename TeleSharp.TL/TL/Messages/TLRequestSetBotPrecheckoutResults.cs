@@ -18,30 +18,30 @@ namespace TeleSharp.TL.Messages
             }
         }
 
-        public int Flags { get; set; }
-        public bool Success { get; set; }
-        public long QueryId { get; set; }
-        public string Error { get; set; }
+        public int flags { get; set; }
+        public bool success { get; set; }
+        public long query_id { get; set; }
+        public string error { get; set; }
         public bool Response { get; set; }
 
 
         public void ComputeFlags()
         {
-            Flags = 0;
-            Flags = Success ? (Flags | 2) : (Flags & ~2);
-            Flags = Error != null ? (Flags | 1) : (Flags & ~1);
+            flags = 0;
+            flags = success ? (flags | 2) : (flags & ~2);
+            flags = error != null ? (flags | 1) : (flags & ~1);
 
         }
 
         public override void DeserializeBody(BinaryReader br)
         {
-            Flags = br.ReadInt32();
-            Success = (Flags & 2) != 0;
-            QueryId = br.ReadInt64();
-            if ((Flags & 1) != 0)
-                Error = StringUtil.Deserialize(br);
+            flags = br.ReadInt32();
+            success = (flags & 2) != 0;
+            query_id = br.ReadInt64();
+            if ((flags & 1) != 0)
+                error = StringUtil.Deserialize(br);
             else
-                Error = null;
+                error = null;
 
 
         }
@@ -50,14 +50,14 @@ namespace TeleSharp.TL.Messages
         {
             bw.Write(Constructor);
             ComputeFlags();
-            bw.Write(Flags);
+            bw.Write(flags);
 
-            bw.Write(QueryId);
-            if ((Flags & 1) != 0)
-                StringUtil.Serialize(Error, bw);
+            bw.Write(query_id);
+            if ((flags & 1) != 0)
+                StringUtil.Serialize(error, bw);
 
         }
-        public override void DeserializeResponse(BinaryReader br)
+        public override void deserializeResponse(BinaryReader br)
         {
             Response = BoolUtil.Deserialize(br);
 

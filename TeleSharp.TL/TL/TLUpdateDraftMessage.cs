@@ -18,8 +18,8 @@ namespace TeleSharp.TL
             }
         }
 
-        public TLAbsPeer Peer { get; set; }
-        public TLAbsDraftMessage Draft { get; set; }
+        public TLAbsPeer peer { get; set; }
+        public TLAbsDraftMessage draft { get; set; }
 
 
         public void ComputeFlags()
@@ -29,16 +29,16 @@ namespace TeleSharp.TL
 
         public override void DeserializeBody(BinaryReader br)
         {
-            Peer = (TLAbsPeer)ObjectUtils.DeserializeObject(br);
-            Draft = (TLAbsDraftMessage)ObjectUtils.DeserializeObject(br);
+            peer = (TLAbsPeer)ObjectUtils.DeserializeObject(br);
+            draft = (TLAbsDraftMessage)ObjectUtils.DeserializeObject(br);
 
         }
 
         public override void SerializeBody(BinaryWriter bw)
         {
             bw.Write(Constructor);
-            ObjectUtils.SerializeObject(Peer, bw);
-            ObjectUtils.SerializeObject(Draft, bw);
+            ObjectUtils.SerializeObject(peer, bw);
+            ObjectUtils.SerializeObject(draft, bw);
 
         }
     }

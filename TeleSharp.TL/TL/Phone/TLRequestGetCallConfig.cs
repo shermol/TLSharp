@@ -36,7 +36,7 @@ namespace TeleSharp.TL.Phone
             bw.Write(Constructor);
 
         }
-        public override void DeserializeResponse(BinaryReader br)
+        public override void deserializeResponse(BinaryReader br)
         {
             Response = (TLDataJSON)ObjectUtils.DeserializeObject(br);
 

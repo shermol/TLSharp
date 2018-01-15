@@ -18,7 +18,7 @@ namespace TeleSharp.TL.Messages
             }
         }
 
-        public TLAbsInputStickeredMedia Media { get; set; }
+        public TLAbsInputStickeredMedia media { get; set; }
         public TLVector<TLAbsStickerSetCovered> Response { get; set; }
 
 
@@ -29,17 +29,17 @@ namespace TeleSharp.TL.Messages
 
         public override void DeserializeBody(BinaryReader br)
         {
-            Media = (TLAbsInputStickeredMedia)ObjectUtils.DeserializeObject(br);
+            media = (TLAbsInputStickeredMedia)ObjectUtils.DeserializeObject(br);
 
         }
 
         public override void SerializeBody(BinaryWriter bw)
         {
             bw.Write(Constructor);
-            ObjectUtils.SerializeObject(Media, bw);
+            ObjectUtils.SerializeObject(media, bw);
 
         }
-        public override void DeserializeResponse(BinaryReader br)
+        public override void deserializeResponse(BinaryReader br)
         {
             Response = (TLVector<TLAbsStickerSetCovered>)ObjectUtils.DeserializeVector<TLAbsStickerSetCovered>(br);
 

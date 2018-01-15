@@ -18,26 +18,26 @@ namespace TeleSharp.TL
             }
         }
 
-        public int Flags { get; set; }
-        public int ChatId { get; set; }
-        public TLAbsChatParticipant SelfParticipant { get; set; }
+        public int flags { get; set; }
+        public int chat_id { get; set; }
+        public TLAbsChatParticipant self_participant { get; set; }
 
 
         public void ComputeFlags()
         {
-            Flags = 0;
-            Flags = SelfParticipant != null ? (Flags | 1) : (Flags & ~1);
+            flags = 0;
+            flags = self_participant != null ? (flags | 1) : (flags & ~1);
 
         }
 
         public override void DeserializeBody(BinaryReader br)
         {
-            Flags = br.ReadInt32();
-            ChatId = br.ReadInt32();
-            if ((Flags & 1) != 0)
-                SelfParticipant = (TLAbsChatParticipant)ObjectUtils.DeserializeObject(br);
+            flags = br.ReadInt32();
+            chat_id = br.ReadInt32();
+            if ((flags & 1) != 0)
+                self_participant = (TLAbsChatParticipant)ObjectUtils.DeserializeObject(br);
             else
-                SelfParticipant = null;
+                self_participant = null;
 
 
         }
@@ -46,10 +46,10 @@ namespace TeleSharp.TL
         {
             bw.Write(Constructor);
             ComputeFlags();
-            bw.Write(Flags);
-            bw.Write(ChatId);
-            if ((Flags & 1) != 0)
-                ObjectUtils.SerializeObject(SelfParticipant, bw);
+            bw.Write(flags);
+            bw.Write(chat_id);
+            if ((flags & 1) != 0)
+                ObjectUtils.SerializeObject(self_participant, bw);
 
         }
     }

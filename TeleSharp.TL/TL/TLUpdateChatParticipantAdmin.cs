@@ -18,10 +18,10 @@ namespace TeleSharp.TL
             }
         }
 
-        public int ChatId { get; set; }
-        public int UserId { get; set; }
-        public bool IsAdmin { get; set; }
-        public int Version { get; set; }
+        public int chat_id { get; set; }
+        public int user_id { get; set; }
+        public bool is_admin { get; set; }
+        public int version { get; set; }
 
 
         public void ComputeFlags()
@@ -31,20 +31,20 @@ namespace TeleSharp.TL
 
         public override void DeserializeBody(BinaryReader br)
         {
-            ChatId = br.ReadInt32();
-            UserId = br.ReadInt32();
-            IsAdmin = BoolUtil.Deserialize(br);
-            Version = br.ReadInt32();
+            chat_id = br.ReadInt32();
+            user_id = br.ReadInt32();
+            is_admin = BoolUtil.Deserialize(br);
+            version = br.ReadInt32();
 
         }
 
         public override void SerializeBody(BinaryWriter bw)
         {
             bw.Write(Constructor);
-            bw.Write(ChatId);
-            bw.Write(UserId);
-            BoolUtil.Serialize(IsAdmin, bw);
-            bw.Write(Version);
+            bw.Write(chat_id);
+            bw.Write(user_id);
+            BoolUtil.Serialize(is_admin, bw);
+            bw.Write(version);
 
         }
     }

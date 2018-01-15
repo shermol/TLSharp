@@ -18,7 +18,7 @@ namespace TeleSharp.TL
             }
         }
 
-        public TLObject Query { get; set; }
+        public TLObject query { get; set; }
         public TLObject Response { get; set; }
 
 
@@ -29,17 +29,17 @@ namespace TeleSharp.TL
 
         public override void DeserializeBody(BinaryReader br)
         {
-            Query = (TLObject)ObjectUtils.DeserializeObject(br);
+            query = (TLObject)ObjectUtils.DeserializeObject(br);
 
         }
 
         public override void SerializeBody(BinaryWriter bw)
         {
             bw.Write(Constructor);
-            ObjectUtils.SerializeObject(Query, bw);
+            ObjectUtils.SerializeObject(query, bw);
 
         }
-        public override void DeserializeResponse(BinaryReader br)
+        public override void deserializeResponse(BinaryReader br)
         {
             Response = (TLObject)ObjectUtils.DeserializeObject(br);
 

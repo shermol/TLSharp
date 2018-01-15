@@ -18,24 +18,24 @@ namespace TeleSharp.TL
             }
         }
 
-        public int Flags { get; set; }
-        public TLVector<TLAbsPeer> Order { get; set; }
+        public int flags { get; set; }
+        public TLVector<TLAbsPeer> order { get; set; }
 
 
         public void ComputeFlags()
         {
-            Flags = 0;
-            Flags = Order != null ? (Flags | 1) : (Flags & ~1);
+            flags = 0;
+            flags = order != null ? (flags | 1) : (flags & ~1);
 
         }
 
         public override void DeserializeBody(BinaryReader br)
         {
-            Flags = br.ReadInt32();
-            if ((Flags & 1) != 0)
-                Order = (TLVector<TLAbsPeer>)ObjectUtils.DeserializeVector<TLAbsPeer>(br);
+            flags = br.ReadInt32();
+            if ((flags & 1) != 0)
+                order = (TLVector<TLAbsPeer>)ObjectUtils.DeserializeVector<TLAbsPeer>(br);
             else
-                Order = null;
+                order = null;
 
 
         }
@@ -44,9 +44,9 @@ namespace TeleSharp.TL
         {
             bw.Write(Constructor);
             ComputeFlags();
-            bw.Write(Flags);
-            if ((Flags & 1) != 0)
-                ObjectUtils.SerializeObject(Order, bw);
+            bw.Write(flags);
+            if ((flags & 1) != 0)
+                ObjectUtils.SerializeObject(order, bw);
 
         }
     }

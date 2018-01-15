@@ -18,9 +18,9 @@ namespace TeleSharp.TL
             }
         }
 
-        public int UserId { get; set; }
-        public TLAbsContactLink MyLink { get; set; }
-        public TLAbsContactLink ForeignLink { get; set; }
+        public int user_id { get; set; }
+        public TLAbsContactLink my_link { get; set; }
+        public TLAbsContactLink foreign_link { get; set; }
 
 
         public void ComputeFlags()
@@ -30,18 +30,18 @@ namespace TeleSharp.TL
 
         public override void DeserializeBody(BinaryReader br)
         {
-            UserId = br.ReadInt32();
-            MyLink = (TLAbsContactLink)ObjectUtils.DeserializeObject(br);
-            ForeignLink = (TLAbsContactLink)ObjectUtils.DeserializeObject(br);
+            user_id = br.ReadInt32();
+            my_link = (TLAbsContactLink)ObjectUtils.DeserializeObject(br);
+            foreign_link = (TLAbsContactLink)ObjectUtils.DeserializeObject(br);
 
         }
 
         public override void SerializeBody(BinaryWriter bw)
         {
             bw.Write(Constructor);
-            bw.Write(UserId);
-            ObjectUtils.SerializeObject(MyLink, bw);
-            ObjectUtils.SerializeObject(ForeignLink, bw);
+            bw.Write(user_id);
+            ObjectUtils.SerializeObject(my_link, bw);
+            ObjectUtils.SerializeObject(foreign_link, bw);
 
         }
     }

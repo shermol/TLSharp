@@ -18,7 +18,7 @@ namespace TeleSharp.TL
             }
         }
 
-        public TLAbsInputFile File { get; set; }
+        public TLAbsInputFile file { get; set; }
 
 
         public void ComputeFlags()
@@ -28,14 +28,14 @@ namespace TeleSharp.TL
 
         public override void DeserializeBody(BinaryReader br)
         {
-            File = (TLAbsInputFile)ObjectUtils.DeserializeObject(br);
+            file = (TLAbsInputFile)ObjectUtils.DeserializeObject(br);
 
         }
 
         public override void SerializeBody(BinaryWriter bw)
         {
             bw.Write(Constructor);
-            ObjectUtils.SerializeObject(File, bw);
+            ObjectUtils.SerializeObject(file, bw);
 
         }
     }

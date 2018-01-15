@@ -18,8 +18,8 @@ namespace TeleSharp.TL.Auth
             }
         }
 
-        public int Id { get; set; }
-        public byte[] Bytes { get; set; }
+        public int id { get; set; }
+        public byte[] bytes { get; set; }
 
 
         public void ComputeFlags()
@@ -29,16 +29,16 @@ namespace TeleSharp.TL.Auth
 
         public override void DeserializeBody(BinaryReader br)
         {
-            Id = br.ReadInt32();
-            Bytes = BytesUtil.Deserialize(br);
+            id = br.ReadInt32();
+            bytes = BytesUtil.Deserialize(br);
 
         }
 
         public override void SerializeBody(BinaryWriter bw)
         {
             bw.Write(Constructor);
-            bw.Write(Id);
-            BytesUtil.Serialize(Bytes, bw);
+            bw.Write(id);
+            BytesUtil.Serialize(bytes, bw);
 
         }
     }

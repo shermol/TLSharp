@@ -14,19 +14,18 @@ namespace TeleSharp.TL
         {
             int Constructor = reader.ReadInt32();
             object obj;
-            Type t = null;
-            try
-            {
+            Type t =null;
+            try {
                 t = TLContext.getType(Constructor);
                 obj = Activator.CreateInstance(t);
             }
-            catch (Exception ex)
+            catch(Exception ex)
             {
                 throw new InvalidDataException("Constructor Invalid Or Context.Init Not Called !", ex);
             }
             if (t.IsSubclassOf(typeof(TLMethod)))
             {
-                ((TLMethod)obj).DeserializeResponse(reader);
+                ((TLMethod)obj).deserializeResponse(reader);
                 return obj;
             }
             else if (t.IsSubclassOf(typeof(TLObject)))
@@ -36,7 +35,7 @@ namespace TeleSharp.TL
             }
             else throw new NotImplementedException("Weird Type : " + t.Namespace + " | " + t.Name);
         }
-        public static void SerializeObject(object obj, BinaryWriter writer)
+        public static void SerializeObject(object  obj,BinaryWriter writer)
         {
             ((TLObject)obj).SerializeBody(writer);
         }

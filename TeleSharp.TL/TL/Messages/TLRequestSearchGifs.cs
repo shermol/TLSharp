@@ -18,8 +18,8 @@ namespace TeleSharp.TL.Messages
             }
         }
 
-        public string Q { get; set; }
-        public int Offset { get; set; }
+        public string q { get; set; }
+        public int offset { get; set; }
         public Messages.TLFoundGifs Response { get; set; }
 
 
@@ -30,19 +30,19 @@ namespace TeleSharp.TL.Messages
 
         public override void DeserializeBody(BinaryReader br)
         {
-            Q = StringUtil.Deserialize(br);
-            Offset = br.ReadInt32();
+            q = StringUtil.Deserialize(br);
+            offset = br.ReadInt32();
 
         }
 
         public override void SerializeBody(BinaryWriter bw)
         {
             bw.Write(Constructor);
-            StringUtil.Serialize(Q, bw);
-            bw.Write(Offset);
+            StringUtil.Serialize(q, bw);
+            bw.Write(offset);
 
         }
-        public override void DeserializeResponse(BinaryReader br)
+        public override void deserializeResponse(BinaryReader br)
         {
             Response = (Messages.TLFoundGifs)ObjectUtils.DeserializeObject(br);
 

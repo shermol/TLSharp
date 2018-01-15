@@ -18,8 +18,8 @@ namespace TeleSharp.TL.Messages
             }
         }
 
-        public int Version { get; set; }
-        public int RandomLength { get; set; }
+        public int version { get; set; }
+        public int random_length { get; set; }
         public Messages.TLAbsDhConfig Response { get; set; }
 
 
@@ -30,19 +30,19 @@ namespace TeleSharp.TL.Messages
 
         public override void DeserializeBody(BinaryReader br)
         {
-            Version = br.ReadInt32();
-            RandomLength = br.ReadInt32();
+            version = br.ReadInt32();
+            random_length = br.ReadInt32();
 
         }
 
         public override void SerializeBody(BinaryWriter bw)
         {
             bw.Write(Constructor);
-            bw.Write(Version);
-            bw.Write(RandomLength);
+            bw.Write(version);
+            bw.Write(random_length);
 
         }
-        public override void DeserializeResponse(BinaryReader br)
+        public override void deserializeResponse(BinaryReader br)
         {
             Response = (Messages.TLAbsDhConfig)ObjectUtils.DeserializeObject(br);
 
