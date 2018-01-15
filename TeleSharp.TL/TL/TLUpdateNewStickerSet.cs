@@ -18,7 +18,7 @@ namespace TeleSharp.TL
             }
         }
 
-        public Messages.TLStickerSet Stickerset { get; set; }
+        public Messages.TLStickerSet stickerset { get; set; }
 
 
         public void ComputeFlags()
@@ -28,14 +28,14 @@ namespace TeleSharp.TL
 
         public override void DeserializeBody(BinaryReader br)
         {
-            Stickerset = (Messages.TLStickerSet)ObjectUtils.DeserializeObject(br);
+            stickerset = (Messages.TLStickerSet)ObjectUtils.DeserializeObject(br);
 
         }
 
         public override void SerializeBody(BinaryWriter bw)
         {
             bw.Write(Constructor);
-            ObjectUtils.SerializeObject(Stickerset, bw);
+            ObjectUtils.SerializeObject(stickerset, bw);
 
         }
     }

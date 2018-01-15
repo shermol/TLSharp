@@ -18,27 +18,27 @@ namespace TeleSharp.TL.Auth
             }
         }
 
-        public int Flags { get; set; }
-        public int? TmpSessions { get; set; }
-        public TLAbsUser User { get; set; }
+        public int flags { get; set; }
+        public int? tmp_sessions { get; set; }
+        public TLAbsUser user { get; set; }
 
 
         public void ComputeFlags()
         {
-            Flags = 0;
-            Flags = TmpSessions != null ? (Flags | 1) : (Flags & ~1);
+            flags = 0;
+            flags = tmp_sessions != null ? (flags | 1) : (flags & ~1);
 
         }
 
         public override void DeserializeBody(BinaryReader br)
         {
-            Flags = br.ReadInt32();
-            if ((Flags & 1) != 0)
-                TmpSessions = br.ReadInt32();
+            flags = br.ReadInt32();
+            if ((flags & 1) != 0)
+                tmp_sessions = br.ReadInt32();
             else
-                TmpSessions = null;
+                tmp_sessions = null;
 
-            User = (TLAbsUser)ObjectUtils.DeserializeObject(br);
+            user = (TLAbsUser)ObjectUtils.DeserializeObject(br);
 
         }
 
@@ -46,10 +46,10 @@ namespace TeleSharp.TL.Auth
         {
             bw.Write(Constructor);
             ComputeFlags();
-            bw.Write(Flags);
-            if ((Flags & 1) != 0)
-                bw.Write(TmpSessions.Value);
-            ObjectUtils.SerializeObject(User, bw);
+            bw.Write(flags);
+            if ((flags & 1) != 0)
+                bw.Write(tmp_sessions.Value);
+            ObjectUtils.SerializeObject(user, bw);
 
         }
     }

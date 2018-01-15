@@ -18,8 +18,8 @@ namespace TeleSharp.TL
             }
         }
 
-        public int MinId { get; set; }
-        public int MaxId { get; set; }
+        public int min_id { get; set; }
+        public int max_id { get; set; }
 
 
         public void ComputeFlags()
@@ -29,16 +29,16 @@ namespace TeleSharp.TL
 
         public override void DeserializeBody(BinaryReader br)
         {
-            MinId = br.ReadInt32();
-            MaxId = br.ReadInt32();
+            min_id = br.ReadInt32();
+            max_id = br.ReadInt32();
 
         }
 
         public override void SerializeBody(BinaryWriter bw)
         {
             bw.Write(Constructor);
-            bw.Write(MinId);
-            bw.Write(MaxId);
+            bw.Write(min_id);
+            bw.Write(max_id);
 
         }
     }

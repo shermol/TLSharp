@@ -18,27 +18,27 @@ namespace TeleSharp.TL.Payments
             }
         }
 
-        public int Flags { get; set; }
-        public bool HasSavedCredentials { get; set; }
-        public TLPaymentRequestedInfo SavedInfo { get; set; }
+        public int flags { get; set; }
+        public bool has_saved_credentials { get; set; }
+        public TLPaymentRequestedInfo saved_info { get; set; }
 
 
         public void ComputeFlags()
         {
-            Flags = 0;
-            Flags = HasSavedCredentials ? (Flags | 2) : (Flags & ~2);
-            Flags = SavedInfo != null ? (Flags | 1) : (Flags & ~1);
+            flags = 0;
+            flags = has_saved_credentials ? (flags | 2) : (flags & ~2);
+            flags = saved_info != null ? (flags | 1) : (flags & ~1);
 
         }
 
         public override void DeserializeBody(BinaryReader br)
         {
-            Flags = br.ReadInt32();
-            HasSavedCredentials = (Flags & 2) != 0;
-            if ((Flags & 1) != 0)
-                SavedInfo = (TLPaymentRequestedInfo)ObjectUtils.DeserializeObject(br);
+            flags = br.ReadInt32();
+            has_saved_credentials = (flags & 2) != 0;
+            if ((flags & 1) != 0)
+                saved_info = (TLPaymentRequestedInfo)ObjectUtils.DeserializeObject(br);
             else
-                SavedInfo = null;
+                saved_info = null;
 
 
         }
@@ -47,10 +47,10 @@ namespace TeleSharp.TL.Payments
         {
             bw.Write(Constructor);
             ComputeFlags();
-            bw.Write(Flags);
+            bw.Write(flags);
 
-            if ((Flags & 1) != 0)
-                ObjectUtils.SerializeObject(SavedInfo, bw);
+            if ((flags & 1) != 0)
+                ObjectUtils.SerializeObject(saved_info, bw);
 
         }
     }

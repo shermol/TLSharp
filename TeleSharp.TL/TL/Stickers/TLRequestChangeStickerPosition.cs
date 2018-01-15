@@ -18,8 +18,8 @@ namespace TeleSharp.TL.Stickers
             }
         }
 
-        public TLAbsInputDocument Sticker { get; set; }
-        public int Position { get; set; }
+        public TLAbsInputDocument sticker { get; set; }
+        public int position { get; set; }
         public bool Response { get; set; }
 
 
@@ -30,19 +30,19 @@ namespace TeleSharp.TL.Stickers
 
         public override void DeserializeBody(BinaryReader br)
         {
-            Sticker = (TLAbsInputDocument)ObjectUtils.DeserializeObject(br);
-            Position = br.ReadInt32();
+            sticker = (TLAbsInputDocument)ObjectUtils.DeserializeObject(br);
+            position = br.ReadInt32();
 
         }
 
         public override void SerializeBody(BinaryWriter bw)
         {
             bw.Write(Constructor);
-            ObjectUtils.SerializeObject(Sticker, bw);
-            bw.Write(Position);
+            ObjectUtils.SerializeObject(sticker, bw);
+            bw.Write(position);
 
         }
-        public override void DeserializeResponse(BinaryReader br)
+        public override void deserializeResponse(BinaryReader br)
         {
             Response = BoolUtil.Deserialize(br);
 

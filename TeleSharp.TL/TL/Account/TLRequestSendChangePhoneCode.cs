@@ -18,30 +18,30 @@ namespace TeleSharp.TL.Account
             }
         }
 
-        public int Flags { get; set; }
-        public bool AllowFlashcall { get; set; }
-        public string PhoneNumber { get; set; }
-        public bool? CurrentNumber { get; set; }
+        public int flags { get; set; }
+        public bool allow_flashcall { get; set; }
+        public string phone_number { get; set; }
+        public bool? current_number { get; set; }
         public Auth.TLSentCode Response { get; set; }
 
 
         public void ComputeFlags()
         {
-            Flags = 0;
-            Flags = AllowFlashcall ? (Flags | 1) : (Flags & ~1);
-            Flags = CurrentNumber != null ? (Flags | 1) : (Flags & ~1);
+            flags = 0;
+            flags = allow_flashcall ? (flags | 1) : (flags & ~1);
+            flags = current_number != null ? (flags | 1) : (flags & ~1);
 
         }
 
         public override void DeserializeBody(BinaryReader br)
         {
-            Flags = br.ReadInt32();
-            AllowFlashcall = (Flags & 1) != 0;
-            PhoneNumber = StringUtil.Deserialize(br);
-            if ((Flags & 1) != 0)
-                CurrentNumber = BoolUtil.Deserialize(br);
+            flags = br.ReadInt32();
+            allow_flashcall = (flags & 1) != 0;
+            phone_number = StringUtil.Deserialize(br);
+            if ((flags & 1) != 0)
+                current_number = BoolUtil.Deserialize(br);
             else
-                CurrentNumber = null;
+                current_number = null;
 
 
         }
@@ -50,14 +50,14 @@ namespace TeleSharp.TL.Account
         {
             bw.Write(Constructor);
             ComputeFlags();
-            bw.Write(Flags);
+            bw.Write(flags);
 
-            StringUtil.Serialize(PhoneNumber, bw);
-            if ((Flags & 1) != 0)
-                BoolUtil.Serialize(CurrentNumber.Value, bw);
+            StringUtil.Serialize(phone_number, bw);
+            if ((flags & 1) != 0)
+                BoolUtil.Serialize(current_number.Value, bw);
 
         }
-        public override void DeserializeResponse(BinaryReader br)
+        public override void deserializeResponse(BinaryReader br)
         {
             Response = (Auth.TLSentCode)ObjectUtils.DeserializeObject(br);
 

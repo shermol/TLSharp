@@ -18,8 +18,8 @@ namespace TeleSharp.TL
             }
         }
 
-        public int UserId { get; set; }
-        public TLAbsSendMessageAction Action { get; set; }
+        public int user_id { get; set; }
+        public TLAbsSendMessageAction action { get; set; }
 
 
         public void ComputeFlags()
@@ -29,16 +29,16 @@ namespace TeleSharp.TL
 
         public override void DeserializeBody(BinaryReader br)
         {
-            UserId = br.ReadInt32();
-            Action = (TLAbsSendMessageAction)ObjectUtils.DeserializeObject(br);
+            user_id = br.ReadInt32();
+            action = (TLAbsSendMessageAction)ObjectUtils.DeserializeObject(br);
 
         }
 
         public override void SerializeBody(BinaryWriter bw)
         {
             bw.Write(Constructor);
-            bw.Write(UserId);
-            ObjectUtils.SerializeObject(Action, bw);
+            bw.Write(user_id);
+            ObjectUtils.SerializeObject(action, bw);
 
         }
     }

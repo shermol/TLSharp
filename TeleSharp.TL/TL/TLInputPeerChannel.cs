@@ -18,8 +18,8 @@ namespace TeleSharp.TL
             }
         }
 
-        public int ChannelId { get; set; }
-        public long AccessHash { get; set; }
+        public int channel_id { get; set; }
+        public long access_hash { get; set; }
 
 
         public void ComputeFlags()
@@ -29,16 +29,16 @@ namespace TeleSharp.TL
 
         public override void DeserializeBody(BinaryReader br)
         {
-            ChannelId = br.ReadInt32();
-            AccessHash = br.ReadInt64();
+            channel_id = br.ReadInt32();
+            access_hash = br.ReadInt64();
 
         }
 
         public override void SerializeBody(BinaryWriter bw)
         {
             bw.Write(Constructor);
-            bw.Write(ChannelId);
-            bw.Write(AccessHash);
+            bw.Write(channel_id);
+            bw.Write(access_hash);
 
         }
     }

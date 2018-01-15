@@ -18,7 +18,7 @@ namespace TeleSharp.TL.Account
             }
         }
 
-        public TLVector<TLAuthorization> Authorizations { get; set; }
+        public TLVector<TLAuthorization> authorizations { get; set; }
 
 
         public void ComputeFlags()
@@ -28,14 +28,14 @@ namespace TeleSharp.TL.Account
 
         public override void DeserializeBody(BinaryReader br)
         {
-            Authorizations = (TLVector<TLAuthorization>)ObjectUtils.DeserializeVector<TLAuthorization>(br);
+            authorizations = (TLVector<TLAuthorization>)ObjectUtils.DeserializeVector<TLAuthorization>(br);
 
         }
 
         public override void SerializeBody(BinaryWriter bw)
         {
             bw.Write(Constructor);
-            ObjectUtils.SerializeObject(Authorizations, bw);
+            ObjectUtils.SerializeObject(authorizations, bw);
 
         }
     }

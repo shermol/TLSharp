@@ -18,26 +18,26 @@ namespace TeleSharp.TL.Messages
             }
         }
 
-        public int Flags { get; set; }
-        public bool JustClear { get; set; }
-        public TLAbsInputPeer Peer { get; set; }
-        public int MaxId { get; set; }
+        public int flags { get; set; }
+        public bool just_clear { get; set; }
+        public TLAbsInputPeer peer { get; set; }
+        public int max_id { get; set; }
         public Messages.TLAffectedHistory Response { get; set; }
 
 
         public void ComputeFlags()
         {
-            Flags = 0;
-            Flags = JustClear ? (Flags | 1) : (Flags & ~1);
+            flags = 0;
+            flags = just_clear ? (flags | 1) : (flags & ~1);
 
         }
 
         public override void DeserializeBody(BinaryReader br)
         {
-            Flags = br.ReadInt32();
-            JustClear = (Flags & 1) != 0;
-            Peer = (TLAbsInputPeer)ObjectUtils.DeserializeObject(br);
-            MaxId = br.ReadInt32();
+            flags = br.ReadInt32();
+            just_clear = (flags & 1) != 0;
+            peer = (TLAbsInputPeer)ObjectUtils.DeserializeObject(br);
+            max_id = br.ReadInt32();
 
         }
 
@@ -45,13 +45,13 @@ namespace TeleSharp.TL.Messages
         {
             bw.Write(Constructor);
             ComputeFlags();
-            bw.Write(Flags);
+            bw.Write(flags);
 
-            ObjectUtils.SerializeObject(Peer, bw);
-            bw.Write(MaxId);
+            ObjectUtils.SerializeObject(peer, bw);
+            bw.Write(max_id);
 
         }
-        public override void DeserializeResponse(BinaryReader br)
+        public override void deserializeResponse(BinaryReader br)
         {
             Response = (Messages.TLAffectedHistory)ObjectUtils.DeserializeObject(br);
 

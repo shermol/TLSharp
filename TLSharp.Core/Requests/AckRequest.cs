@@ -30,7 +30,7 @@ namespace TLSharp.Core.Requests
             throw new NotImplementedException();
         }
 
-        public override void DeserializeResponse(BinaryReader stream)
+        public override void deserializeResponse(BinaryReader stream)
         {
             throw new NotImplementedException();
         }

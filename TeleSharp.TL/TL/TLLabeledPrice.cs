@@ -18,8 +18,8 @@ namespace TeleSharp.TL
             }
         }
 
-        public string Label { get; set; }
-        public long Amount { get; set; }
+        public string label { get; set; }
+        public long amount { get; set; }
 
 
         public void ComputeFlags()
@@ -29,16 +29,16 @@ namespace TeleSharp.TL
 
         public override void DeserializeBody(BinaryReader br)
         {
-            Label = StringUtil.Deserialize(br);
-            Amount = br.ReadInt64();
+            label = StringUtil.Deserialize(br);
+            amount = br.ReadInt64();
 
         }
 
         public override void SerializeBody(BinaryWriter bw)
         {
             bw.Write(Constructor);
-            StringUtil.Serialize(Label, bw);
-            bw.Write(Amount);
+            StringUtil.Serialize(label, bw);
+            bw.Write(amount);
 
         }
     }

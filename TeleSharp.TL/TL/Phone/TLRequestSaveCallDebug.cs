@@ -18,8 +18,8 @@ namespace TeleSharp.TL.Phone
             }
         }
 
-        public TLInputPhoneCall Peer { get; set; }
-        public TLDataJSON Debug { get; set; }
+        public TLInputPhoneCall peer { get; set; }
+        public TLDataJSON debug { get; set; }
         public bool Response { get; set; }
 
 
@@ -30,19 +30,19 @@ namespace TeleSharp.TL.Phone
 
         public override void DeserializeBody(BinaryReader br)
         {
-            Peer = (TLInputPhoneCall)ObjectUtils.DeserializeObject(br);
-            Debug = (TLDataJSON)ObjectUtils.DeserializeObject(br);
+            peer = (TLInputPhoneCall)ObjectUtils.DeserializeObject(br);
+            debug = (TLDataJSON)ObjectUtils.DeserializeObject(br);
 
         }
 
         public override void SerializeBody(BinaryWriter bw)
         {
             bw.Write(Constructor);
-            ObjectUtils.SerializeObject(Peer, bw);
-            ObjectUtils.SerializeObject(Debug, bw);
+            ObjectUtils.SerializeObject(peer, bw);
+            ObjectUtils.SerializeObject(debug, bw);
 
         }
-        public override void DeserializeResponse(BinaryReader br)
+        public override void deserializeResponse(BinaryReader br)
         {
             Response = BoolUtil.Deserialize(br);
 

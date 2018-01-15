@@ -18,39 +18,39 @@ namespace TeleSharp.TL.Account
             }
         }
 
-        public int Flags { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public string About { get; set; }
+        public int flags { get; set; }
+        public string first_name { get; set; }
+        public string last_name { get; set; }
+        public string about { get; set; }
         public TLAbsUser Response { get; set; }
 
 
         public void ComputeFlags()
         {
-            Flags = 0;
-            Flags = FirstName != null ? (Flags | 1) : (Flags & ~1);
-            Flags = LastName != null ? (Flags | 2) : (Flags & ~2);
-            Flags = About != null ? (Flags | 4) : (Flags & ~4);
+            flags = 0;
+            flags = first_name != null ? (flags | 1) : (flags & ~1);
+            flags = last_name != null ? (flags | 2) : (flags & ~2);
+            flags = about != null ? (flags | 4) : (flags & ~4);
 
         }
 
         public override void DeserializeBody(BinaryReader br)
         {
-            Flags = br.ReadInt32();
-            if ((Flags & 1) != 0)
-                FirstName = StringUtil.Deserialize(br);
+            flags = br.ReadInt32();
+            if ((flags & 1) != 0)
+                first_name = StringUtil.Deserialize(br);
             else
-                FirstName = null;
+                first_name = null;
 
-            if ((Flags & 2) != 0)
-                LastName = StringUtil.Deserialize(br);
+            if ((flags & 2) != 0)
+                last_name = StringUtil.Deserialize(br);
             else
-                LastName = null;
+                last_name = null;
 
-            if ((Flags & 4) != 0)
-                About = StringUtil.Deserialize(br);
+            if ((flags & 4) != 0)
+                about = StringUtil.Deserialize(br);
             else
-                About = null;
+                about = null;
 
 
         }
@@ -59,16 +59,16 @@ namespace TeleSharp.TL.Account
         {
             bw.Write(Constructor);
             ComputeFlags();
-            bw.Write(Flags);
-            if ((Flags & 1) != 0)
-                StringUtil.Serialize(FirstName, bw);
-            if ((Flags & 2) != 0)
-                StringUtil.Serialize(LastName, bw);
-            if ((Flags & 4) != 0)
-                StringUtil.Serialize(About, bw);
+            bw.Write(flags);
+            if ((flags & 1) != 0)
+                StringUtil.Serialize(first_name, bw);
+            if ((flags & 2) != 0)
+                StringUtil.Serialize(last_name, bw);
+            if ((flags & 4) != 0)
+                StringUtil.Serialize(about, bw);
 
         }
-        public override void DeserializeResponse(BinaryReader br)
+        public override void deserializeResponse(BinaryReader br)
         {
             Response = (TLAbsUser)ObjectUtils.DeserializeObject(br);
 

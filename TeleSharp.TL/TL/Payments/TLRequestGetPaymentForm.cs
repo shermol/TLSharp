@@ -18,7 +18,7 @@ namespace TeleSharp.TL.Payments
             }
         }
 
-        public int MsgId { get; set; }
+        public int msg_id { get; set; }
         public Payments.TLPaymentForm Response { get; set; }
 
 
@@ -29,17 +29,17 @@ namespace TeleSharp.TL.Payments
 
         public override void DeserializeBody(BinaryReader br)
         {
-            MsgId = br.ReadInt32();
+            msg_id = br.ReadInt32();
 
         }
 
         public override void SerializeBody(BinaryWriter bw)
         {
             bw.Write(Constructor);
-            bw.Write(MsgId);
+            bw.Write(msg_id);
 
         }
-        public override void DeserializeResponse(BinaryReader br)
+        public override void deserializeResponse(BinaryReader br)
         {
             Response = (Payments.TLPaymentForm)ObjectUtils.DeserializeObject(br);
 

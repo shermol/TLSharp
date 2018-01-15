@@ -18,8 +18,8 @@ namespace TeleSharp.TL.Channels
             }
         }
 
-        public TLAbsInputChannel Channel { get; set; }
-        public int MaxId { get; set; }
+        public TLAbsInputChannel channel { get; set; }
+        public int max_id { get; set; }
         public bool Response { get; set; }
 
 
@@ -30,19 +30,19 @@ namespace TeleSharp.TL.Channels
 
         public override void DeserializeBody(BinaryReader br)
         {
-            Channel = (TLAbsInputChannel)ObjectUtils.DeserializeObject(br);
-            MaxId = br.ReadInt32();
+            channel = (TLAbsInputChannel)ObjectUtils.DeserializeObject(br);
+            max_id = br.ReadInt32();
 
         }
 
         public override void SerializeBody(BinaryWriter bw)
         {
             bw.Write(Constructor);
-            ObjectUtils.SerializeObject(Channel, bw);
-            bw.Write(MaxId);
+            ObjectUtils.SerializeObject(channel, bw);
+            bw.Write(max_id);
 
         }
-        public override void DeserializeResponse(BinaryReader br)
+        public override void deserializeResponse(BinaryReader br)
         {
             Response = BoolUtil.Deserialize(br);
 

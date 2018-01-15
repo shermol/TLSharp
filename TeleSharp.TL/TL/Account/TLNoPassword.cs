@@ -18,8 +18,8 @@ namespace TeleSharp.TL.Account
             }
         }
 
-        public byte[] NewSalt { get; set; }
-        public string EmailUnconfirmedPattern { get; set; }
+        public byte[] new_salt { get; set; }
+        public string email_unconfirmed_pattern { get; set; }
 
 
         public void ComputeFlags()
@@ -29,16 +29,16 @@ namespace TeleSharp.TL.Account
 
         public override void DeserializeBody(BinaryReader br)
         {
-            NewSalt = BytesUtil.Deserialize(br);
-            EmailUnconfirmedPattern = StringUtil.Deserialize(br);
+            new_salt = BytesUtil.Deserialize(br);
+            email_unconfirmed_pattern = StringUtil.Deserialize(br);
 
         }
 
         public override void SerializeBody(BinaryWriter bw)
         {
             bw.Write(Constructor);
-            BytesUtil.Serialize(NewSalt, bw);
-            StringUtil.Serialize(EmailUnconfirmedPattern, bw);
+            BytesUtil.Serialize(new_salt, bw);
+            StringUtil.Serialize(email_unconfirmed_pattern, bw);
 
         }
     }

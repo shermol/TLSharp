@@ -18,8 +18,8 @@ namespace TeleSharp.TL.Bots
             }
         }
 
-        public string CustomMethod { get; set; }
-        public TLDataJSON Params { get; set; }
+        public string custom_method { get; set; }
+        public TLDataJSON @params { get; set; }
         public TLDataJSON Response { get; set; }
 
 
@@ -30,19 +30,19 @@ namespace TeleSharp.TL.Bots
 
         public override void DeserializeBody(BinaryReader br)
         {
-            CustomMethod = StringUtil.Deserialize(br);
-            Params = (TLDataJSON)ObjectUtils.DeserializeObject(br);
+            custom_method = StringUtil.Deserialize(br);
+            @params = (TLDataJSON)ObjectUtils.DeserializeObject(br);
 
         }
 
         public override void SerializeBody(BinaryWriter bw)
         {
             bw.Write(Constructor);
-            StringUtil.Serialize(CustomMethod, bw);
-            ObjectUtils.SerializeObject(Params, bw);
+            StringUtil.Serialize(custom_method, bw);
+            ObjectUtils.SerializeObject(@params, bw);
 
         }
-        public override void DeserializeResponse(BinaryReader br)
+        public override void deserializeResponse(BinaryReader br)
         {
             Response = (TLDataJSON)ObjectUtils.DeserializeObject(br);
 

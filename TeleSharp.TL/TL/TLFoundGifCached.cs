@@ -18,9 +18,9 @@ namespace TeleSharp.TL
             }
         }
 
-        public string Url { get; set; }
-        public TLAbsPhoto Photo { get; set; }
-        public TLAbsDocument Document { get; set; }
+        public string url { get; set; }
+        public TLAbsPhoto photo { get; set; }
+        public TLAbsDocument document { get; set; }
 
 
         public void ComputeFlags()
@@ -30,18 +30,18 @@ namespace TeleSharp.TL
 
         public override void DeserializeBody(BinaryReader br)
         {
-            Url = StringUtil.Deserialize(br);
-            Photo = (TLAbsPhoto)ObjectUtils.DeserializeObject(br);
-            Document = (TLAbsDocument)ObjectUtils.DeserializeObject(br);
+            url = StringUtil.Deserialize(br);
+            photo = (TLAbsPhoto)ObjectUtils.DeserializeObject(br);
+            document = (TLAbsDocument)ObjectUtils.DeserializeObject(br);
 
         }
 
         public override void SerializeBody(BinaryWriter bw)
         {
             bw.Write(Constructor);
-            StringUtil.Serialize(Url, bw);
-            ObjectUtils.SerializeObject(Photo, bw);
-            ObjectUtils.SerializeObject(Document, bw);
+            StringUtil.Serialize(url, bw);
+            ObjectUtils.SerializeObject(photo, bw);
+            ObjectUtils.SerializeObject(document, bw);
 
         }
     }

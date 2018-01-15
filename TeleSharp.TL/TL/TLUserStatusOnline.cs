@@ -18,7 +18,7 @@ namespace TeleSharp.TL
             }
         }
 
-        public int Expires { get; set; }
+        public int expires { get; set; }
 
 
         public void ComputeFlags()
@@ -28,14 +28,14 @@ namespace TeleSharp.TL
 
         public override void DeserializeBody(BinaryReader br)
         {
-            Expires = br.ReadInt32();
+            expires = br.ReadInt32();
 
         }
 
         public override void SerializeBody(BinaryWriter bw)
         {
             bw.Write(Constructor);
-            bw.Write(Expires);
+            bw.Write(expires);
 
         }
     }

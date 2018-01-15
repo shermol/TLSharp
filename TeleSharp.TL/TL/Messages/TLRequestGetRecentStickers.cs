@@ -18,24 +18,24 @@ namespace TeleSharp.TL.Messages
             }
         }
 
-        public int Flags { get; set; }
-        public bool Attached { get; set; }
-        public int Hash { get; set; }
+        public int flags { get; set; }
+        public bool attached { get; set; }
+        public int hash { get; set; }
         public Messages.TLAbsRecentStickers Response { get; set; }
 
 
         public void ComputeFlags()
         {
-            Flags = 0;
-            Flags = Attached ? (Flags | 1) : (Flags & ~1);
+            flags = 0;
+            flags = attached ? (flags | 1) : (flags & ~1);
 
         }
 
         public override void DeserializeBody(BinaryReader br)
         {
-            Flags = br.ReadInt32();
-            Attached = (Flags & 1) != 0;
-            Hash = br.ReadInt32();
+            flags = br.ReadInt32();
+            attached = (flags & 1) != 0;
+            hash = br.ReadInt32();
 
         }
 
@@ -43,12 +43,12 @@ namespace TeleSharp.TL.Messages
         {
             bw.Write(Constructor);
             ComputeFlags();
-            bw.Write(Flags);
+            bw.Write(flags);
 
-            bw.Write(Hash);
+            bw.Write(hash);
 
         }
-        public override void DeserializeResponse(BinaryReader br)
+        public override void deserializeResponse(BinaryReader br)
         {
             Response = (Messages.TLAbsRecentStickers)ObjectUtils.DeserializeObject(br);
 

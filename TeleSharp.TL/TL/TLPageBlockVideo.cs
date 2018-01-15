@@ -18,28 +18,28 @@ namespace TeleSharp.TL
             }
         }
 
-        public int Flags { get; set; }
-        public bool Autoplay { get; set; }
-        public bool Loop { get; set; }
-        public long VideoId { get; set; }
-        public TLAbsRichText Caption { get; set; }
+        public int flags { get; set; }
+        public bool autoplay { get; set; }
+        public bool loop { get; set; }
+        public long video_id { get; set; }
+        public TLAbsRichText caption { get; set; }
 
 
         public void ComputeFlags()
         {
-            Flags = 0;
-            Flags = Autoplay ? (Flags | 1) : (Flags & ~1);
-            Flags = Loop ? (Flags | 2) : (Flags & ~2);
+            flags = 0;
+            flags = autoplay ? (flags | 1) : (flags & ~1);
+            flags = loop ? (flags | 2) : (flags & ~2);
 
         }
 
         public override void DeserializeBody(BinaryReader br)
         {
-            Flags = br.ReadInt32();
-            Autoplay = (Flags & 1) != 0;
-            Loop = (Flags & 2) != 0;
-            VideoId = br.ReadInt64();
-            Caption = (TLAbsRichText)ObjectUtils.DeserializeObject(br);
+            flags = br.ReadInt32();
+            autoplay = (flags & 1) != 0;
+            loop = (flags & 2) != 0;
+            video_id = br.ReadInt64();
+            caption = (TLAbsRichText)ObjectUtils.DeserializeObject(br);
 
         }
 
@@ -47,11 +47,11 @@ namespace TeleSharp.TL
         {
             bw.Write(Constructor);
             ComputeFlags();
-            bw.Write(Flags);
+            bw.Write(flags);
 
 
-            bw.Write(VideoId);
-            ObjectUtils.SerializeObject(Caption, bw);
+            bw.Write(video_id);
+            ObjectUtils.SerializeObject(caption, bw);
 
         }
     }

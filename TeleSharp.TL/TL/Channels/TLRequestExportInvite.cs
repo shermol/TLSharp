@@ -18,7 +18,7 @@ namespace TeleSharp.TL.Channels
             }
         }
 
-        public TLAbsInputChannel Channel { get; set; }
+        public TLAbsInputChannel channel { get; set; }
         public TLAbsExportedChatInvite Response { get; set; }
 
 
@@ -29,17 +29,17 @@ namespace TeleSharp.TL.Channels
 
         public override void DeserializeBody(BinaryReader br)
         {
-            Channel = (TLAbsInputChannel)ObjectUtils.DeserializeObject(br);
+            channel = (TLAbsInputChannel)ObjectUtils.DeserializeObject(br);
 
         }
 
         public override void SerializeBody(BinaryWriter bw)
         {
             bw.Write(Constructor);
-            ObjectUtils.SerializeObject(Channel, bw);
+            ObjectUtils.SerializeObject(channel, bw);
 
         }
-        public override void DeserializeResponse(BinaryReader br)
+        public override void deserializeResponse(BinaryReader br)
         {
             Response = (TLAbsExportedChatInvite)ObjectUtils.DeserializeObject(br);
 

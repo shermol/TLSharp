@@ -36,7 +36,7 @@ namespace TeleSharp.TL.Payments
             bw.Write(Constructor);
 
         }
-        public override void DeserializeResponse(BinaryReader br)
+        public override void deserializeResponse(BinaryReader br)
         {
             Response = (Payments.TLSavedInfo)ObjectUtils.DeserializeObject(br);
 

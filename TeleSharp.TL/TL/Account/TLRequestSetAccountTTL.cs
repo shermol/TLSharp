@@ -18,7 +18,7 @@ namespace TeleSharp.TL.Account
             }
         }
 
-        public TLAccountDaysTTL Ttl { get; set; }
+        public TLAccountDaysTTL ttl { get; set; }
         public bool Response { get; set; }
 
 
@@ -29,17 +29,17 @@ namespace TeleSharp.TL.Account
 
         public override void DeserializeBody(BinaryReader br)
         {
-            Ttl = (TLAccountDaysTTL)ObjectUtils.DeserializeObject(br);
+            ttl = (TLAccountDaysTTL)ObjectUtils.DeserializeObject(br);
 
         }
 
         public override void SerializeBody(BinaryWriter bw)
         {
             bw.Write(Constructor);
-            ObjectUtils.SerializeObject(Ttl, bw);
+            ObjectUtils.SerializeObject(ttl, bw);
 
         }
-        public override void DeserializeResponse(BinaryReader br)
+        public override void deserializeResponse(BinaryReader br)
         {
             Response = BoolUtil.Deserialize(br);
 

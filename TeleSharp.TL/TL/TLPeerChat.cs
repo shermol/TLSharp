@@ -18,7 +18,7 @@ namespace TeleSharp.TL
             }
         }
 
-        public int ChatId { get; set; }
+        public int chat_id { get; set; }
 
 
         public void ComputeFlags()
@@ -28,14 +28,14 @@ namespace TeleSharp.TL
 
         public override void DeserializeBody(BinaryReader br)
         {
-            ChatId = br.ReadInt32();
+            chat_id = br.ReadInt32();
 
         }
 
         public override void SerializeBody(BinaryWriter bw)
         {
             bw.Write(Constructor);
-            bw.Write(ChatId);
+            bw.Write(chat_id);
 
         }
     }

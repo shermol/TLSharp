@@ -18,8 +18,8 @@ namespace TeleSharp.TL.Messages
             }
         }
 
-        public TLAbsInputDocument Id { get; set; }
-        public bool Unsave { get; set; }
+        public TLAbsInputDocument id { get; set; }
+        public bool unsave { get; set; }
         public bool Response { get; set; }
 
 
@@ -30,19 +30,19 @@ namespace TeleSharp.TL.Messages
 
         public override void DeserializeBody(BinaryReader br)
         {
-            Id = (TLAbsInputDocument)ObjectUtils.DeserializeObject(br);
-            Unsave = BoolUtil.Deserialize(br);
+            id = (TLAbsInputDocument)ObjectUtils.DeserializeObject(br);
+            unsave = BoolUtil.Deserialize(br);
 
         }
 
         public override void SerializeBody(BinaryWriter bw)
         {
             bw.Write(Constructor);
-            ObjectUtils.SerializeObject(Id, bw);
-            BoolUtil.Serialize(Unsave, bw);
+            ObjectUtils.SerializeObject(id, bw);
+            BoolUtil.Serialize(unsave, bw);
 
         }
-        public override void DeserializeResponse(BinaryReader br)
+        public override void deserializeResponse(BinaryReader br)
         {
             Response = BoolUtil.Deserialize(br);
 

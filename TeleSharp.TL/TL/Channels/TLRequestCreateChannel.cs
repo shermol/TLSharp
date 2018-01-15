@@ -18,29 +18,29 @@ namespace TeleSharp.TL.Channels
             }
         }
 
-        public int Flags { get; set; }
-        public bool Broadcast { get; set; }
-        public bool Megagroup { get; set; }
-        public string Title { get; set; }
-        public string About { get; set; }
+        public int flags { get; set; }
+        public bool broadcast { get; set; }
+        public bool megagroup { get; set; }
+        public string title { get; set; }
+        public string about { get; set; }
         public TLAbsUpdates Response { get; set; }
 
 
         public void ComputeFlags()
         {
-            Flags = 0;
-            Flags = Broadcast ? (Flags | 1) : (Flags & ~1);
-            Flags = Megagroup ? (Flags | 2) : (Flags & ~2);
+            flags = 0;
+            flags = broadcast ? (flags | 1) : (flags & ~1);
+            flags = megagroup ? (flags | 2) : (flags & ~2);
 
         }
 
         public override void DeserializeBody(BinaryReader br)
         {
-            Flags = br.ReadInt32();
-            Broadcast = (Flags & 1) != 0;
-            Megagroup = (Flags & 2) != 0;
-            Title = StringUtil.Deserialize(br);
-            About = StringUtil.Deserialize(br);
+            flags = br.ReadInt32();
+            broadcast = (flags & 1) != 0;
+            megagroup = (flags & 2) != 0;
+            title = StringUtil.Deserialize(br);
+            about = StringUtil.Deserialize(br);
 
         }
 
@@ -48,14 +48,14 @@ namespace TeleSharp.TL.Channels
         {
             bw.Write(Constructor);
             ComputeFlags();
-            bw.Write(Flags);
+            bw.Write(flags);
 
 
-            StringUtil.Serialize(Title, bw);
-            StringUtil.Serialize(About, bw);
+            StringUtil.Serialize(title, bw);
+            StringUtil.Serialize(about, bw);
 
         }
-        public override void DeserializeResponse(BinaryReader br)
+        public override void deserializeResponse(BinaryReader br)
         {
             Response = (TLAbsUpdates)ObjectUtils.DeserializeObject(br);
 

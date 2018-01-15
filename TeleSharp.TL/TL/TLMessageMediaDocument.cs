@@ -18,8 +18,8 @@ namespace TeleSharp.TL
             }
         }
 
-        public TLAbsDocument Document { get; set; }
-        public string Caption { get; set; }
+        public TLAbsDocument document { get; set; }
+        public string caption { get; set; }
 
 
         public void ComputeFlags()
@@ -29,16 +29,16 @@ namespace TeleSharp.TL
 
         public override void DeserializeBody(BinaryReader br)
         {
-            Document = (TLAbsDocument)ObjectUtils.DeserializeObject(br);
-            Caption = StringUtil.Deserialize(br);
+            document = (TLAbsDocument)ObjectUtils.DeserializeObject(br);
+            caption = StringUtil.Deserialize(br);
 
         }
 
         public override void SerializeBody(BinaryWriter bw)
         {
             bw.Write(Constructor);
-            ObjectUtils.SerializeObject(Document, bw);
-            StringUtil.Serialize(Caption, bw);
+            ObjectUtils.SerializeObject(document, bw);
+            StringUtil.Serialize(caption, bw);
 
         }
     }

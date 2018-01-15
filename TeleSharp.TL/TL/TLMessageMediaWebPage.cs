@@ -18,7 +18,7 @@ namespace TeleSharp.TL
             }
         }
 
-        public TLAbsWebPage Webpage { get; set; }
+        public TLAbsWebPage webpage { get; set; }
 
 
         public void ComputeFlags()
@@ -28,14 +28,14 @@ namespace TeleSharp.TL
 
         public override void DeserializeBody(BinaryReader br)
         {
-            Webpage = (TLAbsWebPage)ObjectUtils.DeserializeObject(br);
+            webpage = (TLAbsWebPage)ObjectUtils.DeserializeObject(br);
 
         }
 
         public override void SerializeBody(BinaryWriter bw)
         {
             bw.Write(Constructor);
-            ObjectUtils.SerializeObject(Webpage, bw);
+            ObjectUtils.SerializeObject(webpage, bw);
 
         }
     }

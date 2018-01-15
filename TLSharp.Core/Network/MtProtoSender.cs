@@ -341,7 +341,7 @@ namespace TLSharp.Core.Network
                         }
                         using (var compressedReader = new BinaryReader(ms))
                         {
-                            request.DeserializeResponse(compressedReader);
+                            request.deserializeResponse(compressedReader);
                         }
                     }
                 }
@@ -353,7 +353,7 @@ namespace TLSharp.Core.Network
             else
             {
                 messageReader.BaseStream.Position -= 4;
-                request.DeserializeResponse(messageReader);
+                request.deserializeResponse(messageReader);
             }
 
             return false;

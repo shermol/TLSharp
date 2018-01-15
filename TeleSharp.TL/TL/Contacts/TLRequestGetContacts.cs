@@ -18,7 +18,7 @@ namespace TeleSharp.TL.Contacts
             }
         }
 
-        public string Hash { get; set; }
+        public string hash { get; set; }
         public Contacts.TLAbsContacts Response { get; set; }
 
 
@@ -29,17 +29,17 @@ namespace TeleSharp.TL.Contacts
 
         public override void DeserializeBody(BinaryReader br)
         {
-            Hash = StringUtil.Deserialize(br);
+            hash = StringUtil.Deserialize(br);
 
         }
 
         public override void SerializeBody(BinaryWriter bw)
         {
             bw.Write(Constructor);
-            StringUtil.Serialize(Hash, bw);
+            StringUtil.Serialize(hash, bw);
 
         }
-        public override void DeserializeResponse(BinaryReader br)
+        public override void deserializeResponse(BinaryReader br)
         {
             Response = (Contacts.TLAbsContacts)ObjectUtils.DeserializeObject(br);
 

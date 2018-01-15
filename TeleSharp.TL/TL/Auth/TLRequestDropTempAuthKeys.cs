@@ -18,7 +18,7 @@ namespace TeleSharp.TL.Auth
             }
         }
 
-        public TLVector<long> ExceptAuthKeys { get; set; }
+        public TLVector<long> except_auth_keys { get; set; }
         public bool Response { get; set; }
 
 
@@ -29,17 +29,17 @@ namespace TeleSharp.TL.Auth
 
         public override void DeserializeBody(BinaryReader br)
         {
-            ExceptAuthKeys = (TLVector<long>)ObjectUtils.DeserializeVector<long>(br);
+            except_auth_keys = (TLVector<long>)ObjectUtils.DeserializeVector<long>(br);
 
         }
 
         public override void SerializeBody(BinaryWriter bw)
         {
             bw.Write(Constructor);
-            ObjectUtils.SerializeObject(ExceptAuthKeys, bw);
+            ObjectUtils.SerializeObject(except_auth_keys, bw);
 
         }
-        public override void DeserializeResponse(BinaryReader br)
+        public override void deserializeResponse(BinaryReader br)
         {
             Response = BoolUtil.Deserialize(br);
 

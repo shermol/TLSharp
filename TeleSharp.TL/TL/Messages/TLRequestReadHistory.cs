@@ -18,8 +18,8 @@ namespace TeleSharp.TL.Messages
             }
         }
 
-        public TLAbsInputPeer Peer { get; set; }
-        public int MaxId { get; set; }
+        public TLAbsInputPeer peer { get; set; }
+        public int max_id { get; set; }
         public Messages.TLAffectedMessages Response { get; set; }
 
 
@@ -30,19 +30,19 @@ namespace TeleSharp.TL.Messages
 
         public override void DeserializeBody(BinaryReader br)
         {
-            Peer = (TLAbsInputPeer)ObjectUtils.DeserializeObject(br);
-            MaxId = br.ReadInt32();
+            peer = (TLAbsInputPeer)ObjectUtils.DeserializeObject(br);
+            max_id = br.ReadInt32();
 
         }
 
         public override void SerializeBody(BinaryWriter bw)
         {
             bw.Write(Constructor);
-            ObjectUtils.SerializeObject(Peer, bw);
-            bw.Write(MaxId);
+            ObjectUtils.SerializeObject(peer, bw);
+            bw.Write(max_id);
 
         }
-        public override void DeserializeResponse(BinaryReader br)
+        public override void deserializeResponse(BinaryReader br)
         {
             Response = (Messages.TLAffectedMessages)ObjectUtils.DeserializeObject(br);
 

@@ -18,8 +18,8 @@ namespace TeleSharp.TL.Account
             }
         }
 
-        public byte[] CurrentPasswordHash { get; set; }
-        public Account.TLPasswordInputSettings NewSettings { get; set; }
+        public byte[] current_password_hash { get; set; }
+        public Account.TLPasswordInputSettings new_settings { get; set; }
         public bool Response { get; set; }
 
 
@@ -30,19 +30,19 @@ namespace TeleSharp.TL.Account
 
         public override void DeserializeBody(BinaryReader br)
         {
-            CurrentPasswordHash = BytesUtil.Deserialize(br);
-            NewSettings = (Account.TLPasswordInputSettings)ObjectUtils.DeserializeObject(br);
+            current_password_hash = BytesUtil.Deserialize(br);
+            new_settings = (Account.TLPasswordInputSettings)ObjectUtils.DeserializeObject(br);
 
         }
 
         public override void SerializeBody(BinaryWriter bw)
         {
             bw.Write(Constructor);
-            BytesUtil.Serialize(CurrentPasswordHash, bw);
-            ObjectUtils.SerializeObject(NewSettings, bw);
+            BytesUtil.Serialize(current_password_hash, bw);
+            ObjectUtils.SerializeObject(new_settings, bw);
 
         }
-        public override void DeserializeResponse(BinaryReader br)
+        public override void deserializeResponse(BinaryReader br)
         {
             Response = BoolUtil.Deserialize(br);
 

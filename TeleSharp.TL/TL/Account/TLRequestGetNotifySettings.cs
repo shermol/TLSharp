@@ -18,7 +18,7 @@ namespace TeleSharp.TL.Account
             }
         }
 
-        public TLAbsInputNotifyPeer Peer { get; set; }
+        public TLAbsInputNotifyPeer peer { get; set; }
         public TLAbsPeerNotifySettings Response { get; set; }
 
 
@@ -29,17 +29,17 @@ namespace TeleSharp.TL.Account
 
         public override void DeserializeBody(BinaryReader br)
         {
-            Peer = (TLAbsInputNotifyPeer)ObjectUtils.DeserializeObject(br);
+            peer = (TLAbsInputNotifyPeer)ObjectUtils.DeserializeObject(br);
 
         }
 
         public override void SerializeBody(BinaryWriter bw)
         {
             bw.Write(Constructor);
-            ObjectUtils.SerializeObject(Peer, bw);
+            ObjectUtils.SerializeObject(peer, bw);
 
         }
-        public override void DeserializeResponse(BinaryReader br)
+        public override void deserializeResponse(BinaryReader br)
         {
             Response = (TLAbsPeerNotifySettings)ObjectUtils.DeserializeObject(br);
 

@@ -18,21 +18,21 @@ namespace TeleSharp.TL
             }
         }
 
-        public int Flags { get; set; }
-        public bool Missed { get; set; }
+        public int flags { get; set; }
+        public bool missed { get; set; }
 
 
         public void ComputeFlags()
         {
-            Flags = 0;
-            Flags = Missed ? (Flags | 1) : (Flags & ~1);
+            flags = 0;
+            flags = missed ? (flags | 1) : (flags & ~1);
 
         }
 
         public override void DeserializeBody(BinaryReader br)
         {
-            Flags = br.ReadInt32();
-            Missed = (Flags & 1) != 0;
+            flags = br.ReadInt32();
+            missed = (flags & 1) != 0;
 
         }
 
@@ -40,7 +40,7 @@ namespace TeleSharp.TL
         {
             bw.Write(Constructor);
             ComputeFlags();
-            bw.Write(Flags);
+            bw.Write(flags);
 
 
         }

@@ -18,25 +18,25 @@ namespace TeleSharp.TL.Auth
             }
         }
 
-        public int Flags { get; set; }
-        public int ApiId { get; set; }
-        public string ApiHash { get; set; }
-        public string BotAuthToken { get; set; }
+        public int flags { get; set; }
+        public int api_id { get; set; }
+        public string api_hash { get; set; }
+        public string bot_auth_token { get; set; }
         public Auth.TLAuthorization Response { get; set; }
 
 
         public void ComputeFlags()
         {
-            Flags = 0;
+            flags = 0;
 
         }
 
         public override void DeserializeBody(BinaryReader br)
         {
-            Flags = br.ReadInt32();
-            ApiId = br.ReadInt32();
-            ApiHash = StringUtil.Deserialize(br);
-            BotAuthToken = StringUtil.Deserialize(br);
+            flags = br.ReadInt32();
+            api_id = br.ReadInt32();
+            api_hash = StringUtil.Deserialize(br);
+            bot_auth_token = StringUtil.Deserialize(br);
 
         }
 
@@ -44,13 +44,13 @@ namespace TeleSharp.TL.Auth
         {
             bw.Write(Constructor);
             ComputeFlags();
-            bw.Write(Flags);
-            bw.Write(ApiId);
-            StringUtil.Serialize(ApiHash, bw);
-            StringUtil.Serialize(BotAuthToken, bw);
+            bw.Write(flags);
+            bw.Write(api_id);
+            StringUtil.Serialize(api_hash, bw);
+            StringUtil.Serialize(bot_auth_token, bw);
 
         }
-        public override void DeserializeResponse(BinaryReader br)
+        public override void deserializeResponse(BinaryReader br)
         {
             Response = (Auth.TLAuthorization)ObjectUtils.DeserializeObject(br);
 

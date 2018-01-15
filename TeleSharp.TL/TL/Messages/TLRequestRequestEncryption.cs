@@ -18,9 +18,9 @@ namespace TeleSharp.TL.Messages
             }
         }
 
-        public TLAbsInputUser UserId { get; set; }
-        public int RandomId { get; set; }
-        public byte[] GA { get; set; }
+        public TLAbsInputUser user_id { get; set; }
+        public int random_id { get; set; }
+        public byte[] g_a { get; set; }
         public TLAbsEncryptedChat Response { get; set; }
 
 
@@ -31,21 +31,21 @@ namespace TeleSharp.TL.Messages
 
         public override void DeserializeBody(BinaryReader br)
         {
-            UserId = (TLAbsInputUser)ObjectUtils.DeserializeObject(br);
-            RandomId = br.ReadInt32();
-            GA = BytesUtil.Deserialize(br);
+            user_id = (TLAbsInputUser)ObjectUtils.DeserializeObject(br);
+            random_id = br.ReadInt32();
+            g_a = BytesUtil.Deserialize(br);
 
         }
 
         public override void SerializeBody(BinaryWriter bw)
         {
             bw.Write(Constructor);
-            ObjectUtils.SerializeObject(UserId, bw);
-            bw.Write(RandomId);
-            BytesUtil.Serialize(GA, bw);
+            ObjectUtils.SerializeObject(user_id, bw);
+            bw.Write(random_id);
+            BytesUtil.Serialize(g_a, bw);
 
         }
-        public override void DeserializeResponse(BinaryReader br)
+        public override void deserializeResponse(BinaryReader br)
         {
             Response = (TLAbsEncryptedChat)ObjectUtils.DeserializeObject(br);
 

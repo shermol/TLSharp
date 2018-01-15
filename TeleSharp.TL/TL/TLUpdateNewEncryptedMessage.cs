@@ -18,8 +18,8 @@ namespace TeleSharp.TL
             }
         }
 
-        public TLAbsEncryptedMessage Message { get; set; }
-        public int Qts { get; set; }
+        public TLAbsEncryptedMessage message { get; set; }
+        public int qts { get; set; }
 
 
         public void ComputeFlags()
@@ -29,16 +29,16 @@ namespace TeleSharp.TL
 
         public override void DeserializeBody(BinaryReader br)
         {
-            Message = (TLAbsEncryptedMessage)ObjectUtils.DeserializeObject(br);
-            Qts = br.ReadInt32();
+            message = (TLAbsEncryptedMessage)ObjectUtils.DeserializeObject(br);
+            qts = br.ReadInt32();
 
         }
 
         public override void SerializeBody(BinaryWriter bw)
         {
             bw.Write(Constructor);
-            ObjectUtils.SerializeObject(Message, bw);
-            bw.Write(Qts);
+            ObjectUtils.SerializeObject(message, bw);
+            bw.Write(qts);
 
         }
     }

@@ -18,8 +18,8 @@ namespace TeleSharp.TL
             }
         }
 
-        public long MsgId { get; set; }
-        public TLObject Query { get; set; }
+        public long msg_id { get; set; }
+        public TLObject query { get; set; }
         public TLObject Response { get; set; }
 
 
@@ -30,19 +30,19 @@ namespace TeleSharp.TL
 
         public override void DeserializeBody(BinaryReader br)
         {
-            MsgId = br.ReadInt64();
-            Query = (TLObject)ObjectUtils.DeserializeObject(br);
+            msg_id = br.ReadInt64();
+            query = (TLObject)ObjectUtils.DeserializeObject(br);
 
         }
 
         public override void SerializeBody(BinaryWriter bw)
         {
             bw.Write(Constructor);
-            bw.Write(MsgId);
-            ObjectUtils.SerializeObject(Query, bw);
+            bw.Write(msg_id);
+            ObjectUtils.SerializeObject(query, bw);
 
         }
-        public override void DeserializeResponse(BinaryReader br)
+        public override void deserializeResponse(BinaryReader br)
         {
             Response = (TLObject)ObjectUtils.DeserializeObject(br);
 
