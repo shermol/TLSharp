@@ -18,8 +18,14 @@ namespace TLSharp.Core.Network
     {
         //private ulong sessionId = GenerateRandomUlong();
 
+        private readonly uint UpdatesTooLongID = (uint) new TeleSharp.TL.TLUpdatesTooLong ().Constructor;
+
         private TcpTransport _transport;
         private Session _session;
+
+        public delegate void HandleUpdates (TeleSharp.TL.TLAbsUpdates updates);
+
+        public event HandleUpdates UpdatesEvent;
 
         public List<ulong> needConfirmation = new List<ulong>();
 
@@ -132,17 +138,30 @@ namespace TLSharp.Core.Network
             return new Tuple<byte[], ulong, int>(message, remoteMessageId, remoteSequence);
         }
 
-        public async Task<byte[]> Receive(TeleSharp.TL.TLMethod request)
+        public async Task<byte []> Receive (TeleSharp.TL.TLMethod request)
         {
-            while (!request.ConfirmReceived)
+            while (!request.ConfirmReceived) 
             {
-                var result = DecodeMessage((await _transport.Receieve()).Body);
+                var result = DecodeMessage ((await _transport.Receieve ()).Body);
 
-                using (var messageStream = new MemoryStream(result.Item1, false))
-                using (var messageReader = new BinaryReader(messageStream))
+                using (var messageStream = new MemoryStream (result.Item1, false))
+                using (var messageReader = new BinaryReader (messageStream)) 
                 {
-                    processMessage(result.Item2, result.Item3, messageReader, request);
+                    processMessage (result.Item2, result.Item3, messageReader, request);
                 }
+            }
+
+            return null;
+        }
+
+        public async Task<byte[]> Receive(CancellationToken token)
+        {
+            var result = DecodeMessage ((await _transport.Receieve (token)).Body);
+
+            using (var messageStream = new MemoryStream (result.Item1, false))
+            using (var messageReader = new BinaryReader (messageStream)) 
+            {
+                processMessage (result.Item2, result.Item3, messageReader, null);
             }
 
             return null;
@@ -166,6 +185,7 @@ namespace TLSharp.Core.Network
             // TODO: check salt
             // TODO: check sessionid
             // TODO: check seqno
+
 
             //logger.debug("processMessage: msg_id {0}, sequence {1}, data {2}", BitConverter.ToString(((MemoryStream)messageReader.BaseStream).GetBuffer(), (int) messageReader.BaseStream.Position, (int) (messageReader.BaseStream.Length - messageReader.BaseStream.Position)).Replace("-","").ToLower());
             needConfirmation.Add(messageId);
@@ -208,34 +228,64 @@ namespace TLSharp.Core.Network
                                  //logger.debug("MSG gzip_packed");
                     return HandleGzipPacked(messageId, sequence, messageReader, request);
                 case 0xe317af7e:
-                case 0xd3f45784:
-                case 0x2b2fbd4e:
+                case 0x914fbf11:
+                case 0x16812688:
                 case 0x78d4dec1:
                 case 0x725b04c3:
                 case 0x74ae4240:
-                    return HandleUpdate(messageId, sequence, messageReader);
+                case 0x11f1331c:
+                    return HandleUpdate(code, sequence, messageReader, request);
                 default:
-                    //logger.debug("unknown message: {0}", code);
+                    Console.WriteLine ("Msg code: {0:x8}", code);
                     return false;
             }
         }
 
-        private bool HandleUpdate(ulong messageId, int sequence, BinaryReader messageReader)
+        private bool HandleUpdate(uint code, int sequence, BinaryReader messageReader, TeleSharp.TL.TLMethod request)
         {
-            return false;
-
-            /*
 			try
 			{
-				UpdatesEvent(TL.Parse<Updates>(messageReader));
-				return true;
+                var update = ParseUpdate (code, messageReader);
+                if (update != null && UpdatesEvent != null) 
+                {
+                    UpdatesEvent (update);
+                }
 			}
-			catch (Exception e)
+			catch (Exception ex)
 			{
-				logger.warning("update processing exception: {0}", e);
-				return false;
+                Console.WriteLine (ex);
 			}
-			*/
+            return false;
+        }
+
+        private TeleSharp.TL.TLAbsUpdates ParseUpdate(uint code, BinaryReader messageReader)
+        {
+            switch (code)
+            {
+            case 0xe317af7e:
+                return DecodeUpdate<TeleSharp.TL.TLUpdatesTooLong>(messageReader);
+            case 0x914fbf11:
+                return DecodeUpdate<TeleSharp.TL.TLUpdateShortMessage> (messageReader);
+            case 0x16812688:
+                return DecodeUpdate<TeleSharp.TL.TLUpdateShortChatMessage> (messageReader);
+            case 0x78d4dec1:
+                return DecodeUpdate<TeleSharp.TL.TLUpdateShort> (messageReader);
+            case 0x725b04c3:
+                return DecodeUpdate<TeleSharp.TL.TLUpdatesCombined> (messageReader);
+            case 0x74ae4240:
+                return DecodeUpdate<TeleSharp.TL.TLUpdates> (messageReader);
+            case 0x11f1331c:
+                return DecodeUpdate<TeleSharp.TL.TLUpdateShortSentMessage> (messageReader);
+            default:
+                return null;
+            }
+        }
+
+        private TeleSharp.TL.TLAbsUpdates DecodeUpdate<T>(BinaryReader messageReader) where T: TeleSharp.TL.TLAbsUpdates
+        {
+            var ms = messageReader.BaseStream as MemoryStream;
+            var update = (T) TeleSharp.TL.ObjectUtils.DeserializeObject (messageReader);
+            return update;
         }
 
         private bool HandleGzipPacked(ulong messageId, int sequence, BinaryReader messageReader, TeleSharp.TL.TLMethod request)
@@ -280,6 +330,7 @@ namespace TLSharp.Core.Network
             { // rpc_error
                 int errorCode = messageReader.ReadInt32();
                 string errorMessage = Serializers.String.read(messageReader);
+                Console.Error.WriteLine($"ERROR: {errorMessage} - {errorCode}");
 
                 if (errorMessage.StartsWith("FLOOD_WAIT_"))
                 {
@@ -304,6 +355,12 @@ namespace TLSharp.Core.Network
                     var resultString = Regex.Match(errorMessage, @"\d+").Value;
                     var dcIdx = int.Parse(resultString);
                     throw new UserMigrationException(dcIdx);
+                }
+                else if (errorMessage.StartsWith("NETWORK_MIGRATE_"))
+                {
+                    var resultString = Regex.Match(errorMessage, @"\d+").Value;
+                    var dcIdx = int.Parse(resultString);
+                    throw new NetworkMigrationException(dcIdx);
                 }
                 else if (errorMessage == "PHONE_CODE_INVALID")
                 {
@@ -335,7 +392,7 @@ namespace TLSharp.Core.Network
                         }
                         using (var compressedReader = new BinaryReader(ms))
                         {
-                            request.deserializeResponse(compressedReader);
+                            request.DeserializeResponse(compressedReader);
                         }
                     }
                 }
@@ -347,7 +404,7 @@ namespace TLSharp.Core.Network
             else
             {
                 messageReader.BaseStream.Position -= 4;
-                request.deserializeResponse(messageReader);
+                request.DeserializeResponse(messageReader);
             }
 
             return false;
@@ -507,7 +564,7 @@ namespace TLSharp.Core.Network
                         messageReader.BaseStream.Position = beginPosition + innerLength;
                     }
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
                     //	logger.error("failed to process message in contailer: {0}", e);
                     messageReader.BaseStream.Position = beginPosition + innerLength;
@@ -568,6 +625,14 @@ namespace TLSharp.Core.Network
     {
         internal UserMigrationException(int dc)
             : base($"User located on a different DC: {dc}.", dc)
+        {
+        }
+    }
+    
+    internal class NetworkMigrationException : DataCenterMigrationException
+    {
+        internal NetworkMigrationException(int dc)
+            : base($"Network located on a different DC: {dc}.", dc)
         {
         }
     }
