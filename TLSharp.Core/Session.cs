@@ -69,18 +69,13 @@ namespace TLSharp.Core
         public long LastMessageId { get; set; }
         public int SessionExpires { get; set; }
         public TLUser TLUser { get; set; }
-        public ISessionStore Store { get { return _store; }}
         private Random random;
 
         private ISessionStore _store;
 
-        public Session(ISessionStore store, string sessionUserId)
+        public Session(ISessionStore store)
         {
             random = new Random();
-            Id = GenerateRandomUlong ();
-            SessionUserId = sessionUserId;
-            ServerAddress = defaultConnectionAddress;
-            Port = defaultConnectionPort;
             _store = store;
         }
 
@@ -138,7 +133,7 @@ namespace TLSharp.Core
 
                 var authData = Serializers.Bytes.read(reader);
 
-                return new Session(store, sessionUserId)
+                return new Session(store)
                 {
                     AuthKey = new AuthKey(authData),
                     Id = id,
@@ -160,9 +155,15 @@ namespace TLSharp.Core
             _store.Save(this);
         }
 
-        public static Session GetSession(ISessionStore store, string sessionUserId, Session provided)
+        public static Session TryLoadOrCreateNew(ISessionStore store, string sessionUserId)
         {
-            return store.Load (sessionUserId) ?? provided ?? new Session (store, sessionUserId);
+            return store.Load(sessionUserId) ?? new Session(store)
+            {
+                Id = GenerateRandomUlong(),
+                SessionUserId = sessionUserId,
+                ServerAddress = defaultConnectionAddress,
+                Port = defaultConnectionPort
+            };
         }
 
         private static ulong GenerateRandomUlong()
