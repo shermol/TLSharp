@@ -123,8 +123,6 @@ namespace TLSharp.Core
                 catch(DataCenterMigrationException e)
                 {
                     await ReconnectToDcAsync(e.DC);
-                    // prepare the request for another try
-                    request.ConfirmReceived = false;
                 }
             }
         }
