@@ -1,6 +1,9 @@
-﻿using System;
+﻿using CNPR;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
@@ -30,6 +33,7 @@ namespace TLSharp.Core
         private Session _session;
         private List<TLDcOption> dcOptions;
         private TcpClientConnectionHandler _handler;
+        public LogHelper loggingClass = new LogHelper(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location),"LogFiles", "TelegramClientLog" + DateTime.Now.ToString("yyyyMMdd") + ".txt"));
 
         public delegate void UpdatesEvent (TelegramClient source, TLAbsUpdates updates);
         public delegate void ClientEvent(TelegramClient source);
@@ -42,6 +46,8 @@ namespace TLSharp.Core
         public TelegramClient(int apiId, string apiHash,
             Session session = null, string sessionUserId = "session", TcpClientConnectionHandler handler = null)
         {
+            loggingClass.AddLog("Started!");
+
             if (apiId == default(int))
                 throw new MissingApiConfigurationException("API_ID");
             if (string.IsNullOrEmpty(apiHash))
@@ -53,6 +59,7 @@ namespace TLSharp.Core
             _handler = handler;
 
             _session = Session.GetSession(session?.Store ?? new FileSessionStore(), session?.SessionUserId ?? sessionUserId, session);
+            loggingClass.AddLog("IP: " + _session.ServerAddress + ":" +_session.Port);
             _transport = new TcpTransport(_session.ServerAddress, _session.Port, _handler);
         }
 
@@ -85,11 +92,17 @@ namespace TLSharp.Core
 
             dcOptions = ((TLConfig)invokewithLayer.Response).DcOptions.ToList();
 
+            string dcsString = string.Join(",\r\n", dcOptions.Select(x => x.IpAddress + ":" + x.Port).ToList());
+
+            loggingClass.AddLog("\r\n"+dcsString);
+
             return true;
         }
 
         private async Task ReconnectToDcAsync(int dcId)
         {
+            loggingClass.AddLog("ReconnectToDcAsync...!\r\n");
+
             if (dcOptions == null || !dcOptions.Any())
                 throw new InvalidOperationException($"Can't reconnect. Establish initial connection first.");
 
@@ -140,11 +153,21 @@ namespace TLSharp.Core
 
         private async Task RequestWithDcMigration(TLMethod request) 
         {
+            loggingClass.AddLog("RequestWithDcMigration...!\r\n");
+            int i = 0;
             var completed = false;
             while(!completed)
             {
                 try
                 {
+                    if (i++ > 10)
+                    {
+                        string error = "Exceeded Number of try for DC Migration";
+                        loggingClass.AddLog(error);
+                        throw new Exception(error);
+                    }
+                    loggingClass.AddLog("DC Retry: " + i);
+                    Console.WriteLine("DC Retry: " + i);
                     await _sender.Send(request);
                     await _sender.Receive(request);
                     completed = true;
@@ -298,7 +321,7 @@ namespace TLSharp.Core
         public async Task<TLAbsDialogs> GetUserDialogsAsync()
         {
             var peer = new TLInputPeerSelf();
-            return await SendRequestAsync<TLAbsDialogs>(
+            return await SendRequestAsync<TLDialogsSlice>(
                 new TLRequestGetDialogs() { OffsetDate = 0, OffsetPeer = peer, Limit = 100 });
         }
 

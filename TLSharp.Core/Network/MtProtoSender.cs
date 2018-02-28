@@ -236,7 +236,7 @@ namespace TLSharp.Core.Network
                 case 0x11f1331c:
                     return HandleUpdate(code, sequence, messageReader, request);
                 default:
-                    Console.WriteLine ("Msg code: {0:x8}", code);
+                    //Console.WriteLine ("Msg code: {0:x8}", code);
                     return false;
             }
         }
