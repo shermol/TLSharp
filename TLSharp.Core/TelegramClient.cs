@@ -155,6 +155,9 @@ namespace TLSharp.Core
         {
             loggingClass.AddLog("RequestWithDcMigration...!\r\n");
             int i = 0;
+            if (_sender == null)
+                throw new InvalidOperationException("Not connected!");
+
             var completed = false;
             while(!completed)
             {
@@ -195,9 +198,6 @@ namespace TLSharp.Core
         {
             if (String.IsNullOrWhiteSpace(phoneNumber))
                 throw new ArgumentNullException(nameof(phoneNumber));
-
-            if (_sender == null)
-                throw new InvalidOperationException("Not connected!");
 
             var authCheckPhoneRequest = new TLRequestCheckPhone() { PhoneNumber = phoneNumber };
 
