@@ -140,6 +140,9 @@ namespace TLSharp.Core
 
         private async Task RequestWithDcMigration(TLMethod request) 
         {
+            if (_sender == null)
+                throw new InvalidOperationException("Not connected!");
+
             var completed = false;
             while(!completed)
             {
@@ -172,9 +175,6 @@ namespace TLSharp.Core
         {
             if (String.IsNullOrWhiteSpace(phoneNumber))
                 throw new ArgumentNullException(nameof(phoneNumber));
-
-            if (_sender == null)
-                throw new InvalidOperationException("Not connected!");
 
             var authCheckPhoneRequest = new TLRequestCheckPhone() { PhoneNumber = phoneNumber };
 
