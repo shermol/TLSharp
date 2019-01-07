@@ -44,7 +44,7 @@ namespace TLSharp.Core
         public Session Session { get { return _session; } }
 
         public TelegramClient(int apiId, string apiHash,
-            ISessionStore session = null, string sessionUserId = "session", TcpClientConnectionHandler handler = null)
+            ISessionStore store = null, string sessionUserId = "session", TcpClientConnectionHandler handler = null)
         {
             loggingClass.AddLog("Started!");
 
