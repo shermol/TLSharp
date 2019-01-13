@@ -61,6 +61,7 @@ namespace TLSharp.Core
             _session = Session.GetSession(session?.Store ?? new FileSessionStore(), session?.SessionUserId ?? sessionUserId, session);
             loggingClass.AddLog("IP: " + _session.ServerAddress + ":" +_session.Port);
             _transport = new TcpTransport(_session.ServerAddress, _session.Port, _handler);
+            
         }
 
         public async Task<bool> ConnectAsync(bool reconnect = false)

@@ -3,6 +3,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Threading;
 using System.Threading.Tasks;
+using Starksoft.Net.Proxy;
 
 namespace TLSharp.Core.Network
 {
@@ -10,36 +11,56 @@ namespace TLSharp.Core.Network
 
     public class TcpTransport : IDisposable
     {
-        private readonly TcpClient _tcpClient;
+        private readonly TcpClient _tcpClientp;
         private int sendCounter = 0;
 
         public TcpTransport(string address, int port, TcpClientConnectionHandler handler = null)
         {
+            /*WebProxy myProxy = new WebProxy("45.125.32.182:3128", true);
+            GlobalProxySelection.Select = myProxy;*/
+
+
+
+            /*WebProxy myProxy = new WebProxy("185.165.28.74:5050", true);
+            myProxy.Credentials = new NetworkCredential("22101000%28join-%40Proxy55%29", "join-%40Proxy55");
+            GlobalProxySelection.Select = myProxy;*/
+           
+
+            //address = "127.0.0.1";
+            //port = 62185;
             if (handler == null)
             {
-                _tcpClient = new TcpClient();
+                //&port=1010&user=23101000%28join-%40Proxy55%29&pass=join-%40Proxy55
+                // create an instance of the client proxy factory 
+                ProxyClientFactory factory = new ProxyClientFactory();
+                // use the proxy client factory to generically specify the type of proxy to create 
+                // the proxy factory method CreateProxyClient returns an IProxyClient object 
+                IProxyClient proxy = factory.CreateProxyClient(ProxyType.Socks5, "185.165.28.74", 1010, "23101000(join-@Proxy55)", "join-@Proxy55");
+                // create a connection through the proxy to www.starksoft.com over port 80 
+                 _tcpClientp = proxy.CreateConnection("149.154.167.50", 443);
+                //  _tcpClient = new TcpClient();
 
                 var ipAddress = IPAddress.Parse(address);
-                _tcpClient.Connect(ipAddress, port);
+              //  _tcpClientp.Connect(ipAddress, port);
             }
             else
-                _tcpClient = handler(address, port);
+                _tcpClientp = handler(address, port);
         }
 
         public async Task Send(byte[] packet)
         {
-            if (!_tcpClient.Connected)
+            if (!_tcpClientp.Connected)
                 throw new InvalidOperationException("Client not connected to server.");
 
             var tcpMessage = new TcpMessage(sendCounter, packet);
 
-            await _tcpClient.GetStream().WriteAsync(tcpMessage.Encode(), 0, tcpMessage.Encode().Length);
+            await _tcpClientp.GetStream().WriteAsync(tcpMessage.Encode(), 0, tcpMessage.Encode().Length);
             sendCounter++;
         }
 
         public async Task<TcpMessage> Receieve()
         {
-            var stream = _tcpClient.GetStream();
+            var stream = _tcpClientp.GetStream();
 
             var packetLengthBytes = new byte[4];
             if (await stream.ReadAsync(packetLengthBytes, 0, 4) != 4)
@@ -89,7 +110,7 @@ namespace TLSharp.Core.Network
 
         public async Task<TcpMessage> Receieve(CancellationToken token)
         {
-            var stream = _tcpClient.GetStream();
+            var stream = _tcpClientp.GetStream();
 
             var packetLengthBytes = new byte[4];
             if (await stream.ReadAsync(packetLengthBytes, 0, 4, token) != 4)
@@ -141,15 +162,15 @@ namespace TLSharp.Core.Network
         {
             get
             {
-                return this._tcpClient.Connected;
+                return this._tcpClientp.Connected;
             }
         }
 
 
         public void Dispose()
         {
-            if (_tcpClient.Connected)
-                _tcpClient.Close();
+            if (_tcpClientp.Connected)
+                _tcpClientp.Close();
         }
     }
 }
