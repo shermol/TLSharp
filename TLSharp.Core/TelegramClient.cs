@@ -44,7 +44,7 @@ namespace TLSharp.Core
         public Session Session { get { return _session; } }
 
         public TelegramClient(int apiId, string apiHash,
-            Session session = null, string sessionUserId = "session", TcpClientConnectionHandler handler = null)
+            ISessionStore store = null, string sessionUserId = "session", TcpClientConnectionHandler handler = null)
         {
             loggingClass.AddLog("Started!");
 
@@ -53,13 +53,13 @@ namespace TLSharp.Core
             if (string.IsNullOrEmpty(apiHash))
                 throw new MissingApiConfigurationException("API_HASH");
 
-            TLContext.Init();
+            if (store == null)
+                store = new FileSessionStore();
             _apiHash = apiHash;
             _apiId = apiId;
             _handler = handler;
 
-            _session = Session.GetSession(session?.Store ?? new FileSessionStore(), session?.SessionUserId ?? sessionUserId, session);
-            loggingClass.AddLog("IP: " + _session.ServerAddress + ":" +_session.Port);
+            _session = Session.TryLoadOrCreateNew(store, sessionUserId);
             _transport = new TcpTransport(_session.ServerAddress, _session.Port, _handler);
             
         }
@@ -374,7 +374,7 @@ namespace TLSharp.Core
             await _sender.SendPingAsync();
         }
 
-        public async Task<TLAbsMessages> GetHistoryAsync(TLAbsInputPeer peer, int offset, int max_id, int limit)
+        public async Task<TLAbsMessages> GetHistoryAsync(TLAbsInputPeer peer, int offsetId = 0, int offsetDate = 0, int addOffset = 0, int limit = 100, int maxId = 0, int minId = 0)
         {
             if (!IsUserAuthorized())
                 throw new InvalidOperationException("Authorize user first!");
@@ -382,9 +382,12 @@ namespace TLSharp.Core
             var req = new TLRequestGetHistory()
             {
                 Peer = peer,
-                AddOffset = offset,
-                MaxId = max_id,
-                Limit = limit
+                OffsetId = offsetId,
+                OffsetDate = offsetDate,
+                AddOffset = addOffset,
+                Limit = limit,
+                MaxId = maxId,
+                MinId = minId
             };
             return await SendRequestAsync<TLAbsMessages>(req);
         }

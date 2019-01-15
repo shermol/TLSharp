@@ -74,6 +74,12 @@ namespace TLSharp.Core
 
         private ISessionStore _store;
 
+        public Session(ISessionStore store)
+        {
+            random = new Random();
+            _store = store;
+        }
+
         public Session(ISessionStore store, string sessionUserId)
         {
             random = new Random();
@@ -158,6 +164,17 @@ namespace TLSharp.Core
         public void Save()
         {
             _store.Save(this);
+        }
+
+        public static Session TryLoadOrCreateNew(ISessionStore store, string sessionUserId)
+        {
+            return store.Load(sessionUserId) ?? new Session(store)
+            {
+                Id = GenerateRandomUlong(),
+                SessionUserId = sessionUserId,
+                ServerAddress = defaultConnectionAddress,
+                Port = defaultConnectionPort
+            };
         }
 
         public static Session GetSession(ISessionStore store, string sessionUserId, Session provided)
