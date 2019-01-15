@@ -3,7 +3,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Threading;
 using System.Threading.Tasks;
-//url: 
+//url: https://github.com/meebey/starksoftproxy
 using Starksoft.Net.Proxy;
 
 namespace TLSharp.Core.Network
