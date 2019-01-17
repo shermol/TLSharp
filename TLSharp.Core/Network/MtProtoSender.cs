@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
+using CNPR;
 using Ionic.Zlib;
 using TLSharp.Core.MTProto;
 using TLSharp.Core.MTProto.Crypto;
@@ -92,8 +93,11 @@ namespace TLSharp.Core.Network
             {
                 using (BinaryWriter writer = new BinaryWriter(ciphertextPacket))
                 {
+                    GlobalLogHelper.AddLog($"Auth key is: {_session.AuthKey.ToString()}");
                     writer.Write(_session.AuthKey.Id);
+                    GlobalLogHelper.AddLog($"Message Key is: {msgKey}");
                     writer.Write(msgKey);
+                    GlobalLogHelper.AddLog($"Cipher text is: {ciphertext}");
                     writer.Write(ciphertext);
 
                     await _transport.Send(ciphertextPacket.GetBuffer());
