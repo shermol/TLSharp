@@ -33,7 +33,7 @@ namespace TLSharp.Core
         private Session _session;
         private List<TLDcOption> dcOptions;
         private TcpClientConnectionHandler _handler;
-        public LogHelper loggingClass = new LogHelper(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location),"LogFiles", "TelegramClientLog" + DateTime.Now.ToString("yyyyMMdd") + ".txt"));
+        //public LogHelper loggingClass = new LogHelper(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location),"LogFiles", "TelegramClientLog" + DateTime.Now.ToString("yyyyMMdd") + ".txt"));
 
         public delegate void UpdatesEvent (TelegramClient source, TLAbsUpdates updates);
         public delegate void ClientEvent(TelegramClient source);
@@ -46,7 +46,7 @@ namespace TLSharp.Core
         public TelegramClient(int apiId, string apiHash,
             ISessionStore store = null, string sessionUserId = "session", TcpClientConnectionHandler handler = null)
         {
-            loggingClass.AddLog("Started!");
+            GlobalLogHelper.AddLog("Started!");
 
             if (apiId == default(int))
                 throw new MissingApiConfigurationException("API_ID");
@@ -95,14 +95,14 @@ namespace TLSharp.Core
 
             string dcsString = string.Join(",\r\n", dcOptions.Select(x => x.IpAddress + ":" + x.Port).ToList());
 
-            loggingClass.AddLog("\r\n"+dcsString);
+            GlobalLogHelper.AddLog("\r\n"+dcsString);
 
             return true;
         }
 
         private async Task ReconnectToDcAsync(int dcId)
         {
-            loggingClass.AddLog("ReconnectToDcAsync...!\r\n");
+            GlobalLogHelper.AddLog("ReconnectToDcAsync...!\r\n");
 
             if (dcOptions == null || !dcOptions.Any())
                 throw new InvalidOperationException($"Can't reconnect. Establish initial connection first.");
@@ -154,7 +154,7 @@ namespace TLSharp.Core
 
         private async Task RequestWithDcMigration(TLMethod request) 
         {
-            loggingClass.AddLog("RequestWithDcMigration...!\r\n");
+            GlobalLogHelper.AddLog("RequestWithDcMigration...!\r\n");
             int i = 0;
             if (_sender == null)
                 throw new InvalidOperationException("Not connected!");
@@ -167,10 +167,10 @@ namespace TLSharp.Core
                     if (i++ > 10)
                     {
                         string error = "Exceeded Number of try for DC Migration";
-                        loggingClass.AddLog(error);
+                        GlobalLogHelper.AddLog(error);
                         throw new Exception(error);
                     }
-                    loggingClass.AddLog("DC Retry: " + i);
+                    GlobalLogHelper.AddLog("DC Retry: " + i);
                     Console.WriteLine("DC Retry: " + i);
                     await _sender.Send(request);
                     await _sender.Receive(request);

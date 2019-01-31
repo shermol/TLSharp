@@ -30,6 +30,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CNPR, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\mChapyar - github\CNPR\bin\Debug\CNPR.dll</HintPath>
+    </Reference>
     <Reference Include="Ionic.ZLib, Version=2.0.0.14, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\MarkerMetro.Unity.Ionic.Zlib.2.0.0.14\lib\net35\Ionic.ZLib.dll</HintPath>
       <Private>True</Private>
@@ -82,10 +86,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\mChapyar - github\CNPR\CNPR.csproj">
-      <Project>{157dd412-4244-4d94-839d-a9735a4b7a97}</Project>
-      <Name>CNPR</Name>
-    </ProjectReference>
     <ProjectReference Include="..\TeleSharp.TL\TeleSharp.TL.csproj">
       <Project>{d6144517-91d2-4880-86df-e9ff5d7f383a}</Project>
       <Name>TeleSharp.TL</Name>
