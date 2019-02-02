@@ -5,7 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using CNPR;
 //url: https://github.com/meebey/starksoftproxy
-using Starksoft.Net.Proxy;
+using ChapyarHelper.Tools.ProxyTools.Net.Proxy;
 
 namespace TLSharp.Core.Network
 {
@@ -15,23 +15,10 @@ namespace TLSharp.Core.Network
     {
         private readonly TcpClient _tcpClientp;
         private int sendCounter = 0;
-
-        public TcpTransport(string address, int port, TcpClientConnectionHandler handler = null)
+        public TcpTransport(string address, int port, ProxyType proxyType, string proxyIP,int proxyPort, string proxyUsername,string proxyPassword, TcpClientConnectionHandler handler = null)
         {
             try
             {
-                /*WebProxy myProxy = new WebProxy("45.125.32.182:3128", true);
-                GlobalProxySelection.Select = myProxy;*/
-
-
-
-                /*WebProxy myProxy = new WebProxy("185.165.28.74:5050", true);
-                myProxy.Credentials = new NetworkCredential("22101000%28join-%40Proxy55%29", "join-%40Proxy55");
-                GlobalProxySelection.Select = myProxy;*/
-
-
-                //address = "127.0.0.1";
-                //port = 62185;
                 if (handler == null)
                 {
                     GlobalLogHelper.AddLog($"Connecting to the tcp client using the {address}:{port}");
@@ -40,7 +27,8 @@ namespace TLSharp.Core.Network
                     ProxyClientFactory factory = new ProxyClientFactory();
                     // use the proxy client factory to generically specify the type of proxy to create 
                     // the proxy factory method CreateProxyClient returns an IProxyClient object 
-                    IProxyClient proxy = factory.CreateProxyClient(ProxyType.Socks5, "185.86.181.7", 9090);
+                    //IProxyClient proxy = factory.CreateProxyClient(ProxyType.Socks5, "185.86.181.7", 9090);
+                    IProxyClient proxy = factory.CreateProxyClient(proxyType, proxyIP, proxyPort);
                     // create a connection through the proxy to www.starksoft.com over port 80 
                     _tcpClientp = proxy.CreateConnection(address, 443);
                     //  _tcpClient = new TcpClient();

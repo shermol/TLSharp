@@ -68,15 +68,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Requests\AckRequest.cs" />
     <Compile Include="Requests\PingRequest.cs" />
-    <Compile Include="starksoftproxy\EventArgs\CreateConnectionAsyncCompletedEventArgs.cs" />
-    <Compile Include="starksoftproxy\Exceptions\ProxyException.cs" />
-    <Compile Include="starksoftproxy\HttpProxyClient.cs" />
-    <Compile Include="starksoftproxy\IProxyClient.cs" />
-    <Compile Include="starksoftproxy\ProxyClientFactory.cs" />
-    <Compile Include="starksoftproxy\Socks4aProxyClient.cs" />
-    <Compile Include="starksoftproxy\Socks4ProxyClient.cs" />
-    <Compile Include="starksoftproxy\Socks5ProxyClient.cs" />
-    <Compile Include="starksoftproxy\Utils.cs" />
     <Compile Include="Utils\UploadHelper.cs" />
     <Compile Include="Session.cs" />
     <Compile Include="TelegramClient.cs" />
@@ -86,6 +77,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\ChapyarHelper.Tools\ChapyarHelper.Tools\ChapyarHelper.Tools\ChapyarHelper.Tools.csproj">
+      <Project>{e41483a7-7954-4f76-8dbc-0bb4e30a6e43}</Project>
+      <Name>ChapyarHelper.Tools</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TeleSharp.TL\TeleSharp.TL.csproj">
       <Project>{d6144517-91d2-4880-86df-e9ff5d7f383a}</Project>
       <Name>TeleSharp.TL</Name>

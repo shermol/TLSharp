@@ -1,4 +1,5 @@
 ﻿using CNPR;
+using ChapyarHelper.Tools.ProxyTools.Net.Proxy;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -33,6 +34,11 @@ namespace TLSharp.Core
         private Session _session;
         private List<TLDcOption> dcOptions;
         private TcpClientConnectionHandler _handler;
+        private  ProxyType proxyType_;
+        private string proxyIP;
+        private int proxyPort;
+        private string proxyUsername;
+        private string proxyPassword;
         //public LogHelper loggingClass = new LogHelper(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location),"LogFiles", "TelegramClientLog" + DateTime.Now.ToString("yyyyMMdd") + ".txt"));
 
         public delegate void UpdatesEvent (TelegramClient source, TLAbsUpdates updates);
@@ -42,9 +48,15 @@ namespace TLSharp.Core
         public event ClientEvent IdleLoop;
 
         public Session Session { get { return _session; } }
+        public TelegramClient(ProxyType _proxyType, string _proxyIP, int _proxyPort,string _proxyUsername = null, string _proxyPassword= null) {
+            this.ProxyType_ = _proxyType;
+            this.ProxyPort = _proxyPort;
+            this.ProxyIP = _proxyIP;
+            this.ProxyUsername = _proxyUsername;
+            this.ProxyPassword = _proxyPassword;
+        }
 
-        public TelegramClient(int apiId, string apiHash,
-            ISessionStore store = null, string sessionUserId = "session", TcpClientConnectionHandler handler = null)
+        public TelegramClient(int apiId, string apiHash, ProxyType _proxyType, string _proxyIP, int _proxyPort, string _proxyUsername, string _proxyPassword, ISessionStore store = null, string sessionUserId = "session", TcpClientConnectionHandler handler = null ):this(_proxyType, _proxyIP, _proxyPort, _proxyUsername = null, _proxyPassword = null)
         {
             GlobalLogHelper.AddLog("Started!");
 
@@ -60,7 +72,7 @@ namespace TLSharp.Core
             _handler = handler;
 
             _session = Session.TryLoadOrCreateNew(store, sessionUserId);
-            _transport = new TcpTransport(_session.ServerAddress, _session.Port, _handler);
+            _transport = new TcpTransport(_session.ServerAddress, _session.Port,ProxyType_,ProxyIP,ProxyPort,ProxyUsername,ProxyPassword, _handler);
             
         }
 
@@ -116,7 +128,7 @@ namespace TLSharp.Core
 
             var dc = dcOptions.First(d => d.Id == dcId);
 
-            _transport = new TcpTransport(dc.IpAddress, dc.Port, _handler);
+            _transport = new TcpTransport(dc.IpAddress, dc.Port,ProxyType_,ProxyIP, ProxyPort,ProxyUsername,ProxyPassword, _handler);
             _session.ServerAddress = dc.IpAddress;
             _session.Port = dc.Port;
 
@@ -426,6 +438,13 @@ namespace TLSharp.Core
                 return _transport.IsConnected;
             }
         }
+
+        public ProxyType ProxyType_ { get => proxyType_; set => proxyType_ = value; }
+        public string ProxyIP { get => proxyIP; set => proxyIP = value; }
+        public int ProxyPort { get { return proxyPort; } set { proxyPort = value; } }
+
+        public string ProxyUsername { get => proxyUsername; set => proxyUsername = value; }
+        public string ProxyPassword { get => proxyPassword; set => proxyPassword = value; }
 
         public void Dispose()
         {
