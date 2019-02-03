@@ -48,6 +48,7 @@ namespace TLSharp.Core
         public event ClientEvent IdleLoop;
 
         public Session Session { get { return _session; } }
+
         public TelegramClient(ProxyType _proxyType, string _proxyIP, int _proxyPort,string _proxyUsername = null, string _proxyPassword= null) {
             this.ProxyType_ = _proxyType;
             this.ProxyPort = _proxyPort;
@@ -56,7 +57,7 @@ namespace TLSharp.Core
             this.ProxyPassword = _proxyPassword;
         }
 
-        public TelegramClient(int apiId, string apiHash, ProxyType _proxyType, string _proxyIP, int _proxyPort, string _proxyUsername, string _proxyPassword, ISessionStore store = null, string sessionUserId = "session", TcpClientConnectionHandler handler = null ):this(_proxyType, _proxyIP, _proxyPort, _proxyUsername = null, _proxyPassword = null)
+        public TelegramClient(int apiId, string apiHash, ProxyType _proxyType, string _proxyIP, int _proxyPort, string _proxyUsername, string _proxyPassword, ISessionStore store = null, string sessionUserId = "session", TcpClientConnectionHandler handler = null):this(_proxyType, _proxyIP, _proxyPort, _proxyUsername , _proxyPassword )
         {
             GlobalLogHelper.AddLog("Started!");
 

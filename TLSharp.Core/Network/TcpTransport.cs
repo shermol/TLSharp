@@ -15,8 +15,11 @@ namespace TLSharp.Core.Network
     {
         private readonly TcpClient _tcpClientp;
         private int sendCounter = 0;
+        
+
         public TcpTransport(string address, int port, ProxyType proxyType, string proxyIP,int proxyPort, string proxyUsername,string proxyPassword, TcpClientConnectionHandler handler = null)
         {
+            IProxyClient proxyClient;
             try
             {
                 if (handler == null)
@@ -25,12 +28,34 @@ namespace TLSharp.Core.Network
                     //&port=1010&user=23101000%28join-%40Proxy55%29&pass=join-%40Proxy55
                     // create an instance of the client proxy factory 
                     ProxyClientFactory factory = new ProxyClientFactory();
+                    
+                    switch (proxyType)
+                    {
+                        case ProxyType.None:
+                            proxyClient = factory.CreateProxyClient(ProxyType.None);
+                            break;
+                        case ProxyType.Http:
+                            proxyClient = factory.CreateProxyClient(ProxyType.Http, proxyIP, proxyPort);
+                            break;
+                        case ProxyType.Socks4:
+                            proxyClient = factory.CreateProxyClient(ProxyType.Socks4, proxyIP, proxyPort);
+                            break;
+                        case ProxyType.Socks4a:
+                            proxyClient = factory.CreateProxyClient(ProxyType.Socks4a, proxyIP, proxyPort);
+                            break;
+                        case ProxyType.Socks5:
+                            proxyClient = factory.CreateProxyClient(ProxyType.Socks5, proxyIP, proxyPort,proxyUsername,proxyPassword);
+                            break;
+                        default:
+                            proxyClient = factory.CreateProxyClient(ProxyType.None);
+                            break;
+                    }
                     // use the proxy client factory to generically specify the type of proxy to create 
                     // the proxy factory method CreateProxyClient returns an IProxyClient object 
                     //IProxyClient proxy = factory.CreateProxyClient(ProxyType.Socks5, "185.86.181.7", 9090);
-                    IProxyClient proxy = factory.CreateProxyClient(proxyType, proxyIP, proxyPort);
+                    
                     // create a connection through the proxy to www.starksoft.com over port 80 
-                    _tcpClientp = proxy.CreateConnection(address, 443);
+                    _tcpClientp = proxyClient.CreateConnection(address, 443);
                     //  _tcpClient = new TcpClient();
 
                     var ipAddress = IPAddress.Parse(address);
