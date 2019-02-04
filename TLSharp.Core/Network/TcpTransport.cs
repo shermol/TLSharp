@@ -35,13 +35,13 @@ namespace TLSharp.Core.Network
                             proxyClient = factory.CreateProxyClient(ProxyType.None);
                             break;
                         case ProxyType.Http:
-                            proxyClient = factory.CreateProxyClient(ProxyType.Http, proxyIP, proxyPort);
+                            proxyClient = factory.CreateProxyClient(ProxyType.Http, proxyIP, proxyPort, proxyUsername, proxyPassword);
                             break;
                         case ProxyType.Socks4:
-                            proxyClient = factory.CreateProxyClient(ProxyType.Socks4, proxyIP, proxyPort);
+                            proxyClient = factory.CreateProxyClient(ProxyType.Socks4, proxyIP, proxyPort, proxyUsername, proxyPassword);
                             break;
                         case ProxyType.Socks4a:
-                            proxyClient = factory.CreateProxyClient(ProxyType.Socks4a, proxyIP, proxyPort);
+                            proxyClient = factory.CreateProxyClient(ProxyType.Socks4a, proxyIP, proxyPort, proxyUsername, proxyPassword);
                             break;
                         case ProxyType.Socks5:
                             proxyClient = factory.CreateProxyClient(ProxyType.Socks5, proxyIP, proxyPort,proxyUsername,proxyPassword);
